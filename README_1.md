@@ -37,24 +37,25 @@ cd Q-Vote
 ```
 3. Create a virtual environment:
 
-    - On Windows:
+- On Windows:
 
 ```bash
 python -m venv venv
 ```
-    - On macOS/Linux:
+
+- On macOS/Linux:
 
 ```bash
 python3 -m venv venv
 ```
 4. Activate the virtual environment:
 
-    - On Windows:
+- On Windows:
 
 ```bash
 .\venv\Scripts\activate
 ```
-    - On macOS/Linux:
+- On macOS/Linux:
 
 ```bash
 source venv/bin/activate
@@ -123,7 +124,7 @@ git push origin feature-name
 
 
 ### <p align="left">📄 License</p>
-This project is licensed under the MIT License. See the LICENSE file for details.
+This project is licensed under the [MIT licensed](./LICENSE). See the LICENSE file for details.
 
 ### <p align="left">❤️ Acknowledgments</p>
 - 💻 Qiskit – The quantum computing SDK used in this project.
