@@ -99,9 +99,9 @@ pip install -r requirements.txt
 6. Run the quantum voting simulation:
 
 ```bash
-python src/quantum_voting.py
+python .\src\app.py
 ```
-The output will display vote counts, the winning candidate, and a histogram to visualize the results.
+The output will start Flask Server which will run on http://127.0.0.1:5000
 
 ## <p align="left">🛠 Contributing</p>
 We welcome contributions! Here's how you can contribute:
