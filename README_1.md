@@ -10,12 +10,12 @@ Q-Vote simulates a secure voting process using quantum computing, with future pl
 
 </div>
 <p align="center">✨ Features</p>
-🧑‍🔬 Quantum Voting using Qiskit
-🗳️ Multiple Voters Simulation
-📊 Voting Results Visualization with histograms
-🛠️ Planned Improvements:
-Blockchain integration for vote immutability
-User-friendly web interface for voting
+- 🧑‍🔬 Quantum Voting using Qiskit
+- 🗳️ Multiple Voters Simulation
+- 📊 Voting Results Visualization with histograms
+- 🛠️ Planned Improvements:
+    - Blockchain integration for vote immutability
+    - User-friendly web interface for voting
 More voting options and candidate choices
 <p align="center">⚙️ Tech Stack</p>
 <div align="center">
@@ -25,80 +25,80 @@ More voting options and candidate choices
 <p align="center">📋 Requirements</p>
 To run Q-Vote, ensure you have the following installed:
 
-🐍 Python 3.x
-💻 Qiskit (install via pip)
+- 🐍 Python 3.x
+- 💻 Qiskit (install via pip)
 <p align="center">📦 Installation</p>
 Clone this repository:
 
-bash
-Copy code
+```bash
 git clone https://github.com/YourUsername/QVote.git
+```
 Navigate into the project directory:
 
-bash
-Copy code
+```bash
 cd QVote
+```
 Create a virtual environment:
 
 On Windows:
 
-bash
-Copy code
+```bash
 python -m venv venv
+```
 On macOS/Linux:
 
-bash
-Copy code
+```bash
 python3 -m venv venv
+```
 Activate the virtual environment:
 
 On Windows:
 
-bash
-Copy code
+```bash
 .\venv\Scripts\activate
+```
 On macOS/Linux:
 
-bash
-Copy code
+```bash
 source venv/bin/activate
+```
 Install the required dependencies:
 
-bash
-Copy code
+```bash
 pip install -r requirements.txt
+```
 Run the quantum voting simulation:
 
-bash
-Copy code
+```bash
 python src/quantum_voting.py
+```
 The output will display vote counts, the winning candidate, and a histogram to visualize the results.
 
 <p align="center">🛠 Contributing</p>
 We welcome contributions! Here's how you can contribute:
 
-🔗 Implement blockchain integration for immutability.
-🌐 Develop a web interface for a better voting experience.
-🔄 Optimize quantum circuits for efficiency.
-✍️ Write unit tests for code reliability.
+- 🔗 Implement blockchain integration for immutability.
+- 🌐 Develop a web interface for a better voting experience.
+- 🔄 Optimize quantum circuits for efficiency.
+- ✍️ Write unit tests for code reliability.
 Steps to Contribute:
 Fork the repository.
 
 Create a new branch for your feature or fix:
 
-bash
-Copy code
+```bash
 git checkout -b feature-name
+```
 Make your changes and commit them:
 
-bash
-Copy code
+```bash
 git commit -m "Add some feature"
+```
 Push your branch:
 
-bash
-Copy code
+```bash
 git push origin feature-name
+```
 Create a Pull Request on GitHub.
 
 <p align="center">📄 License</p>
