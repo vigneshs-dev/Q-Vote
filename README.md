@@ -25,35 +25,50 @@
 To run this project, you need the following:
 
 - Python 3.x
-- Qiskit
-- NumPy
-- Matplotlib
-
-You can install the required packages using the following command:
-
-```bash
-pip install -r requirements.txt
-```
 
 ## Installation
 
-Clone this repository:
+1. **Clone this repository**:
 
 ```bash
-git clone https://github.com/YourUsername/QVote.git
+   git clone https://github.com/YourUsername/QVote.git
 ```
 
-Navigate into the project directory:
+2. **Navigate into the project directory**:
 
 ```bash
 cd QVote
 ```
-Install the required packages:
+3. **Create a virtual environment**:
+
+On Windows:
+
+```bash
+python -m venv venv
+```
+On macOS/Linux:
+
+```bash
+python3 -m venv venv
+```
+4. **Activate the virtual environment**:
+
+On Windows:
+
+```bash
+.\venv\Scripts\activate
+```
+On macOS/Linux:
+
+```bash
+source venv/bin/activate
+```
+5. **Install the required packages**:
 
 ```bash
 pip install -r requirements.txt
 ```
-To run the quantum voting simulation, execute the following command:
+6. **To run the quantum voting simulation, execute the following command**:
 
 ```bash
 python src/quantum_voting.py
