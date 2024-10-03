@@ -25,7 +25,7 @@ jobs:
         echo "FLASK_APP=src/app.py" >> $GITHUB_ENV
         echo "FLASK_ENV=development" >> $GITHUB_ENV
 
-        - name: Run Flask application
+    - name: Run Flask application
       run: |
         pip install gunicorn  # Install gunicorn for production-ready server
         gunicorn --bind 0.0.0.0:5000 src.app:app &
