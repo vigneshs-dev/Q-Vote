@@ -68,7 +68,7 @@ source venv/bin/activate
 ```bash
 pip install -r requirements.txt
 ```
-6. **To run the quantum voting simulation, execute the following command**:
+6. **To run the quantum voting simulation, execute the following command:
 
 ```bash
 python src/quantum_voting.py
