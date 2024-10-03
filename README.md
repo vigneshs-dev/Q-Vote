@@ -1,6 +1,6 @@
-# QVote
+# Q-Vote
 
-**QVote** is a quantum voting system utilizing quantum superposition and entanglement to ensure secure and private voting. This project simulates voting for four candidates using Qiskit, and it lays the groundwork for future enhancements like blockchain integration and a user-friendly web interface for voting.
+**Q-Vote** is a quantum voting system utilizing quantum superposition and entanglement to ensure secure and private voting. This project simulates voting for candidates using Qiskit, and it lays the groundwork for future enhancements like blockchain integration and a user-friendly web interface for voting.
 
 ## Table of Contents
 
@@ -61,13 +61,14 @@ python src/quantum_voting.py
 The output will display the final vote counts and the winning candidate. A histogram will also visualize the voting results.
 
 ## Contributing
-We welcome contributions to enhance the QVote project! Here are some areas where you can contribute:
 
- Implement blockchain integration to ensure vote immutability.
- Develop a webpage for a user-friendly voting interface.
- Add more voting options or candidates.
- Optimize the quantum circuit for efficiency.
- Write unit tests for improved code reliability.
+We welcome contributions to enhance the **QVote** project! Here are some areas where you can contribute:
+
+- [ ] Implement blockchain integration to ensure vote immutability.
+- [ ] Develop a webpage for a user-friendly voting interface.
+- [ ] Add more voting options or candidates.
+- [ ] Optimize the quantum circuit for efficiency.
+- [ ] Write unit tests for improved code reliability.
 
 ## Steps to Contribute
 Fork the repository.
@@ -89,5 +90,5 @@ Create a new Pull Request.
 This project is licensed under the MIT License. See the LICENSE file for details.
 
 ## Acknowledgments
-Qiskit - The quantum computing SDK used in this project.
-Contributors and community members who provide feedback and suggestions.
+- Qiskit - The quantum computing SDK used in this project.
+- Contributors and community members who provide feedback and suggestions.
