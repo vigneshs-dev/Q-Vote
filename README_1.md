@@ -124,7 +124,7 @@ git push origin feature-name
 
 
 ### <p align="left">📄 License</p>
-This project is licensed under the [MIT licensed](./LICENSE). See the LICENSE file for details.
+This project is licensed under the MIT licensed. See the [LICENSE](./LICENSE) file for details.
 
 ### <p align="left">❤️ Acknowledgments</p>
 - 💻 Qiskit – The quantum computing SDK used in this project.
