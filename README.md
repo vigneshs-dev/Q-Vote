@@ -59,7 +59,7 @@ To run Q-Vote, ensure you have the following installed:
 1. Clone this repository:
 
 ```bash
-git clone https://github.com/YourUsername/Q-Vote.git
+git clone https://github.com/vigneshs-dev/Q-Vote.git
 ```
 2. Navigate into the project directory:
 
@@ -111,7 +111,7 @@ We welcome contributions! Here's how you can contribute:
 - [ ] 🔄 Optimize quantum circuits for efficiency.
 - [ ] ✍️ Write unit tests for code reliability.
 
-### Steps to Contribute:
+<!-- ### Steps to Contribute:
 1. Fork the repository.
 
 2. Create an issue for new features or bug fixes:
@@ -149,7 +149,7 @@ git push origin feature-name
 - Click on the Compare & Pull Request button.
 - In the PR description, reference the issue you're addressing using the format Closes #ISSUE_NUMBER.
 - Ensure the maintainers review your PR and provide any necessary feedback.
-
+ -->
 
 
 
