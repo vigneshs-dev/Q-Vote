@@ -1,10 +1,10 @@
 # Import necessary libraries
+import random
+import numpy as np
+import matplotlib.pyplot as plt
 from qiskit import QuantumCircuit
 from qiskit_aer import Aer
 from qiskit.visualization import plot_histogram
-import numpy as np
-import matplotlib.pyplot as plt
-import random
 
 # Number of candidates and voters
 num_candidates = 4  # Representing 4 candidates (00, 01, 10, 11)
