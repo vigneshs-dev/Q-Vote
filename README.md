@@ -7,6 +7,36 @@ Q-Vote simulates a secure voting process using quantum computing, with future pl
 
 <div align="center">
 
+### Architecture
+
+```mermaid
+    graph TD
+        A[Client Browser] -->|HTTP Request| B[Flask Web Server]
+        B -->|Render| C[index.html]
+        B -->|/vote endpoint| D[Quantum Voting Simulation]
+        D -->|Create| E[Quantum Circuit]
+        D -->|Random Vote| F[Vote Generation]
+        F -->|Encode| E
+        E -->|Entangle & Measure| G[Qiskit Aer Simulator]
+        G -->|Results| H[Vote Counting]
+        H -->|Generate| I[Histogram Plot]
+        I -->|Encode| J[Base64 Image]
+        D -->|Collect Results| K[JSON Response]
+        J -->|Include| K
+        K -->|HTTP Response| A
+        
+        subgraph Quantum Processing
+        E
+        G
+        end
+        
+        subgraph Result Processing
+        H
+        I
+        J
+        end
+```
+
 ### </div> <p align="left">✨ Features</p>
 - 🧑‍🔬 Quantum Voting using Qiskit
 - 🗳️ Multiple Voters Simulation
