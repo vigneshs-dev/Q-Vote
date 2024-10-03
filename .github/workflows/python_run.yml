@@ -20,6 +20,12 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Run the Python script
+    - name: Set environment variables
       run: |
-        python src/app.py
+        echo "FLASK_APP=src/app.py" >> $GITHUB_ENV
+        echo "FLASK_ENV=development" >> $GITHUB_ENV
+
+    - name: Run Flask application
+      run: |
+        pip install gunicorn  # Install gunicorn for production-ready server
+        gunicorn --bind 0.0.0.0:5000 src.app:app  # Run the Flask app with gunicorn
