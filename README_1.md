@@ -1,8 +1,8 @@
 # <div align="center"> Q-Vote 🗳️ 
-<i>A quantum voting system utilizing quantum superposition and entanglement for secure and private voting</i>
+<i> </div> <p align="center"> A quantum voting system utilizing quantum superposition and entanglement for secure and private voting</i></b> </p>
 
 ## </div> <p align="center"> <b>Quantum Voting meets Blockchain!</b> </p>
-### <p align="center">🚀 Project Overview</p>
+### <p align="left">🚀 Project Overview</p>
 Q-Vote simulates a secure voting process using quantum computing, with future plans for blockchain integration and a user-friendly web interface. This project uses Qiskit to simulate quantum voting and lays the groundwork for secure, private voting systems of the future.
 
 <div align="center">
@@ -37,24 +37,24 @@ cd Q-Vote
 ```
 3. Create a virtual environment:
 
-On Windows:
+    - On Windows:
 
 ```bash
 python -m venv venv
 ```
-On macOS/Linux:
+    - On macOS/Linux:
 
 ```bash
 python3 -m venv venv
 ```
 4. Activate the virtual environment:
 
-On Windows:
+    - On Windows:
 
 ```bash
 .\venv\Scripts\activate
 ```
-On macOS/Linux:
+    - On macOS/Linux:
 
 ```bash
 source venv/bin/activate
@@ -74,41 +74,21 @@ The output will display vote counts, the winning candidate, and a histogram to v
 ### <p align="left">🛠 Contributing</p>
 We welcome contributions! Here's how you can contribute:
 
-- [ ]🔗 Implement blockchain integration for immutability.
-- [ ]🌐 Develop a web interface for a better voting experience.
-- [ ]🔄 Optimize quantum circuits for efficiency.
-- [ ]✍️ Write unit tests for code reliability.
-
-<!-- #### Steps to Contribute:
-1. Fork the repository.
-
-2. Create a new branch for your feature or fix:
-
-```bash
-git checkout -b feature-name
-```
-3. Make your changes and commit them:
-
-```bash
-git commit -m "Add some feature"
-```
-4. Push your branch:
-
-```bash
-git push origin feature-name
-```
-5. Create a Pull Request on GitHub. -->
+- [ ] 🔗 Implement blockchain integration for immutability.
+- [ ] 🌐 Develop a web interface for a better voting experience.
+- [ ] 🔄 Optimize quantum circuits for efficiency.
+- [ ] ✍️ Write unit tests for code reliability.
 
 #### Steps to Contribute:
 1. Fork the repository.
 
 2. Create an issue for new features or bug fixes:
 
-- Go to the Issues section of the repository.
-- Create a new issue, providing a detailed description of the feature or bug.
-- Ask to be assigned to that issue by commenting on it.
-- Wait for confirmation or assignment of the issue before proceeding.
-- Sync your fork with the upstream repository to ensure you're working with the latest code:
+    - Go to the Issues section of the repository.
+    - Create a new issue, providing a detailed description of the feature or bug.
+    - Ask to be assigned to that issue by commenting on it.
+    - Wait for confirmation or assignment of the issue before proceeding.
+    - Sync your fork with the upstream repository to ensure you're working with the latest code:
 
 ```bash
 git remote add upstream https://github.com/ORIGINAL_OWNER/REPOSITORY_NAME.git
