@@ -22,4 +22,4 @@ jobs:
 
     - name: Run the Python script
       run: |
-        python src/quantum_voting.py
+        python src/app.py
