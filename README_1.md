@@ -1,15 +1,13 @@
-<div align="center">
-Q-Vote 🗳️
-<i>A quantum voting system utilizing quantum superposition and entanglement for secure and private voting.</i>
+# <div align="center"> Q-Vote 🗳️ 
+<i>A quantum voting system utilizing quantum superposition and entanglement for secure and private voting</i>
 
-</div> <p align="center"> <b>Quantum Voting meets Blockchain!</b> </p>
-<p align="center">🚀 Project Overview</p>
+## </div> <p align="center"> <b>Quantum Voting meets Blockchain!</b> </p>
+### <p align="center">🚀 Project Overview</p>
 Q-Vote simulates a secure voting process using quantum computing, with future plans for blockchain integration and a user-friendly web interface. This project uses Qiskit to simulate quantum voting and lays the groundwork for secure, private voting systems of the future.
 
 <div align="center">
 
-</div>
-<p align="center">✨ Features</p>
+### </div> <p align="left">✨ Features</p>
 - 🧑‍🔬 Quantum Voting using Qiskit
 - 🗳️ Multiple Voters Simulation
 - 📊 Voting Results Visualization with histograms
@@ -17,17 +15,16 @@ Q-Vote simulates a secure voting process using quantum computing, with future pl
     - Blockchain integration for vote immutability
     - User-friendly web interface for voting
 More voting options and candidate choices
-<p align="center">⚙️ Tech Stack</p>
-<div align="center">
+<p align="left">⚙️ Tech Stack</p>
+<div align="left">
 <a href="https://qiskit.org/"><img src="https://img.shields.io/badge/Qiskit-6929c4?style=for-the-badge&logo=IBM&logoColor=white"></a> <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white"></a> <a href="https://flask.palletsprojects.com/"><img src="https://img.shields.io/badge/-Flask-000000?logo=flask&logoColor=white&style=for-the-badge"></a> <a href="https://www.javascript.com/"><img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=black"></a> <a href="https://nodejs.org/en/"><img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white"></a>
 
-</div>
-<p align="center">📋 Requirements</p>
+### </div> <p align="left">📋 Requirements</p>
 To run Q-Vote, ensure you have the following installed:
 
 - 🐍 Python 3.x
 - 💻 Qiskit (install via pip)
-<p align="center">📦 Installation</p>
+### <p align="left">📦 Installation</p>
 Clone this repository:
 
 ```bash
@@ -74,7 +71,7 @@ python src/quantum_voting.py
 ```
 The output will display vote counts, the winning candidate, and a histogram to visualize the results.
 
-<p align="center">🛠 Contributing</p>
+### <p align="left">🛠 Contributing</p>
 We welcome contributions! Here's how you can contribute:
 
 - 🔗 Implement blockchain integration for immutability.
@@ -101,10 +98,10 @@ git push origin feature-name
 ```
 Create a Pull Request on GitHub.
 
-<p align="center">📄 License</p>
+### <p align="left">📄 License</p>
 This project is licensed under the MIT License. See the LICENSE file for details.
 
-<p align="center">❤️ Acknowledgments</p>
+### <p align="left">❤️ Acknowledgments</p>
 💻 Qiskit – The quantum computing SDK used in this project.
 🙌 Contributors and community members – Thank you for your valuable feedback and suggestions.
-<div align="center"> <p>If you find this project helpful, give it a star ⭐!</p> </div>
+### <div align="center"> <p>If you find this project helpful, give it a star ⭐!</p> </div>
