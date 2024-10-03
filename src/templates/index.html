@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Voting System</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Quantum Voting System</h1>
+        <button id="voteButton">Start Voting</button>
+
+        <div id="results" style="display:none;">
+            <h2>Results:</h2>
+            <p><strong>Winner:</strong> <span id="winner"></span></p>
+            <p><strong>Total Votes:</strong> <span id="totalVotes"></span></p>
+            <h3>Vote Counts:</h3>
+            <div id="voteHistogram">
+                <img id="histogram" src="" alt="Vote Histogram" />
+            </div>
+        </div>
+
+        <div id="loading" style="display:none;">
+            <p>Simulating voting, please wait...</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("voteButton").addEventListener("click", function() {
+            document.getElementById("loading").style.display = "block";
+            document.getElementById("results").style.display = "none";
+            
+            fetch("/vote")
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("loading").style.display = "none";
+                    document.getElementById("results").style.display = "block";
+
+                    document.getElementById("winner").innerText = "Candidate " + data.winner;
+                    document.getElementById("totalVotes").innerText = data.votes + " votes";
+                    document.getElementById("histogram").src = "data:image/png;base64," + data.image;
+                });
+        });
+    </script>
+</body>
+</html>
