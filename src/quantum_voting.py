@@ -2,13 +2,14 @@
 This module implements a quantum voting system using Qiskit, simulating 10 voters and tallying votes.
 """
 
-# Import necessary libraries
+import random  # Standard library import
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Third-party library imports
 from qiskit import QuantumCircuit
 from qiskit_aer import Aer
 from qiskit.visualization import plot_histogram
-import numpy as np
-import matplotlib.pyplot as plt
-import random
 
 # Constants
 NUM_CANDIDATES = 4  # Representing 4 candidates (00, 01, 10, 11)
