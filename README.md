@@ -56,6 +56,7 @@ To run Q-Vote, ensure you have the following installed:
 - 🐍 Python 3.x
 - 💻 Qiskit (install via pip)
 ## <p align="left">📦 Installation</p>
+### <p align="left">Locally</p>
 1. Clone this repository:
 
 ```bash
@@ -102,6 +103,26 @@ pip install -r requirements.txt
 python .\src\app.py
 ```
 The output will start Flask Server which will run on http://127.0.0.1:5000
+
+### <p align="left">Docker</p>
+```bash
+git clone https://github.com/vigneshs-dev/Q-Vote.git
+```
+2. Navigate into the project directory:
+
+```bash
+cd Q-Vote
+```
+
+3. Build the docker image:
+```bash
+docker build -t qvote .
+```
+
+4. Run the in a docker container:
+```bash
+docker run -p 5000:5000 qvote
+```
 
 ## <p align="left">🛠 Contributing</p>
 We welcome contributions! Here's how you can contribute:
