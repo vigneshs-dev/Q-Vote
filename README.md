@@ -44,7 +44,7 @@ Q-Vote simulates a secure voting process using quantum computing, with future pl
 - 🛠️ Planned Improvements:
     - Blockchain integration for vote immutability
     - User-friendly web interface for voting
-More voting options and candidate choices
+More voting options and candidate choices.
 
 ## <p align="left">⚙️ Tech Stack</p>
 <div align="left">
