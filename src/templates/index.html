@@ -11,6 +11,37 @@
 
     <!-- FontAwesome for icons -->
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .input-group {
+            max-width: 200px; /* Limit the width of the input fields */
+            margin: 0 auto; /* Center the input groups */
+        }
+        .btn-lg {
+            width: 100%; /* Make the button full-width */
+        }
+        .card {
+            margin: 0 auto;
+            padding: 15px;
+        }
+        #voteForm {
+            display: flex;
+            justify-content: space-around;
+        }
+        .form-label {
+            font-size: 0.9rem;
+        }
+        #voteHistogram img {
+            max-width: 800px; /* Set a maximum width for the chart */
+            max-height: 300px; /* Set a maximum height for the chart */
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
 </head>
 <body>
     <div class="container mt-5">
@@ -19,10 +50,31 @@
                 <i class="fas fa-vote-yea"></i> Quantum Voting System
             </h1>
 
-            <div class="text-center">
-                <button id="voteButton" class="btn btn-primary btn-lg">
-                    <i class="fas fa-play-circle"></i> Start Voting
-                </button>
+            <div class="mb-4">
+                <h3 class="text-center">Enter the Votes for each Candidate:</h3>
+                <form id="voteForm">
+                    <div class="input-group">
+                        <label for="candidate1" class="form-label">Candidate 1 (Alice):</label>
+                        <input type="number" class="form-control form-control-sm" id="candidate1" value="0">
+                    </div>
+                    <div class="input-group">
+                        <label for="candidate2" class="form-label">Candidate 2 (Bob):</label>
+                        <input type="number" class="form-control form-control-sm" id="candidate2" value="0">
+                    </div>
+                    <div class="input-group">
+                        <label for="candidate3" class="form-label">Candidate 3 (Charlie):</label>
+                        <input type="number" class="form-control form-control-sm" id="candidate3" value="0">
+                    </div>
+                    <div class="input-group">
+                        <label for="candidate4" class="form-label">Candidate 4 (Diana):</label>
+                        <input type="number" class="form-control form-control-sm" id="candidate4" value="0">
+                    </div>
+                </form>
+                <div class="mt-4 text-center">
+                    <button type="button" id="voteButton" class="btn btn-primary btn-lg">
+                        <i class="fas fa-play-circle"></i> Find Winner
+                    </button>
+                </div>
             </div>
 
             <div id="loading" class="text-center mt-4" style="display:none;">
@@ -34,11 +86,11 @@
 
             <div id="results" class="mt-4" style="display:none;">
                 <div class="card p-3">
-                    <h2>Results:</h2>
-                    <p><strong>Winner:</strong> <span id="winner"></span></p>
+                    <h2 class="text-center">Results:</h2>
+                    <p><strong>Winner(s):</strong> <span id="winner"></span></p>
                     <p><strong>Total Votes:</strong> <span id="totalVotes"></span></p>
 
-                    <h3>Vote Counts:</h3>
+                    <h3 class="text-center">Vote Counts:</h3>
                     <div id="voteHistogram">
                         <img id="histogram" class="img-fluid" src="" alt="Vote Histogram" />
                     </div>
@@ -56,17 +108,41 @@
         document.getElementById("voteButton").addEventListener("click", function() {
             document.getElementById("loading").style.display = "block";
             document.getElementById("results").style.display = "none";
-            
-            fetch("/vote")
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById("loading").style.display = "none";
-                    document.getElementById("results").style.display = "block";
 
-                    document.getElementById("winner").innerText = "Candidate " + data.winner;
-                    document.getElementById("totalVotes").innerText = data.votes + " votes";
-                    document.getElementById("histogram").src = "data:image/png;base64," + data.image;
-                });
+            // Get votes from input fields
+            const votes = [
+                parseInt(document.getElementById("candidate1").value),
+                parseInt(document.getElementById("candidate2").value),
+                parseInt(document.getElementById("candidate3").value),
+                parseInt(document.getElementById("candidate4").value)
+            ];
+
+            // Send votes to the server
+            fetch("/vote", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ votes: votes })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("loading").style.display = "none";
+                document.getElementById("results").style.display = "block";
+
+                // Handling joint winners in case of ties
+                const maxVotes = Math.max(...votes);
+                const winners = [];
+                for (let i = 0; i < votes.length; i++) {
+                    if (votes[i] === maxVotes) {
+                        winners.push("Candidate " + (i + 1));
+                    }
+                }
+
+                document.getElementById("winner").innerText = winners.join(", ");
+                document.getElementById("totalVotes").innerText = data.votes + " votes";
+                document.getElementById("histogram").src = "data:image/png;base64," + data.image;
+            });
         });
     </script>
 </body>
