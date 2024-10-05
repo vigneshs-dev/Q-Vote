@@ -11,6 +11,34 @@
 
     <!-- FontAwesome for icons -->
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .input-group {
+            max-width: 200px; /* Limit the width of the input fields */
+            margin: 0 auto; /* Center the input groups */
+        }
+        .btn-lg {
+            width: 100%; /* Make the button full-width */
+        }
+        #results img {
+            max-width: 100%; /* Ensure the histogram fits within the container */
+        }
+        .card {
+            margin: 0 auto;
+            padding: 15px;
+        }
+        #voteForm {
+            display: flex;
+            justify-content: space-around;
+        }
+        .form-label {
+            font-size: 0.9rem;
+        }
+    </style>
 </head>
 <body>
     <div class="container mt-5">
@@ -20,28 +48,30 @@
             </h1>
 
             <div class="mb-4">
-                <h3>Enter the number of votes for each candidate:</h3>
+                <h3 class="text-center">Enter the Votes for each Candidate:</h3>
                 <form id="voteForm">
-                    <div class="mb-3">
+                    <div class="input-group">
                         <label for="candidate1" class="form-label">Candidate 1 (Alice):</label>
-                        <input type="number" class="form-control" id="candidate1" value="0">
+                        <input type="number" class="form-control form-control-sm" id="candidate1" value="0">
                     </div>
-                    <div class="mb-3">
+                    <div class="input-group">
                         <label for="candidate2" class="form-label">Candidate 2 (Bob):</label>
-                        <input type="number" class="form-control" id="candidate2" value="0">
+                        <input type="number" class="form-control form-control-sm" id="candidate2" value="0">
                     </div>
-                    <div class="mb-3">
+                    <div class="input-group">
                         <label for="candidate3" class="form-label">Candidate 3 (Charlie):</label>
-                        <input type="number" class="form-control" id="candidate3" value="0">
+                        <input type="number" class="form-control form-control-sm" id="candidate3" value="0">
                     </div>
-                    <div class="mb-3">
+                    <div class="input-group">
                         <label for="candidate4" class="form-label">Candidate 4 (Diana):</label>
-                        <input type="number" class="form-control" id="candidate4" value="0">
+                        <input type="number" class="form-control form-control-sm" id="candidate4" value="0">
                     </div>
+                </form>
+                <div class="mt-4 text-center">
                     <button type="button" id="voteButton" class="btn btn-primary btn-lg">
                         <i class="fas fa-play-circle"></i> Find Winner
                     </button>
-                </form>
+                </div>
             </div>
 
             <div id="loading" class="text-center mt-4" style="display:none;">
@@ -53,11 +83,11 @@
 
             <div id="results" class="mt-4" style="display:none;">
                 <div class="card p-3">
-                    <h2>Results:</h2>
+                    <h2 class="text-center">Results:</h2>
                     <p><strong>Winner:</strong> <span id="winner"></span></p>
                     <p><strong>Total Votes:</strong> <span id="totalVotes"></span></p>
 
-                    <h3>Vote Counts:</h3>
+                    <h3 class="text-center">Vote Counts:</h3>
                     <div id="voteHistogram">
                         <img id="histogram" class="img-fluid" src="" alt="Vote Histogram" />
                     </div>
