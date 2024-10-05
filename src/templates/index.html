@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quantum Voting System</title>
-    
+
     <!-- Bootstrap CSS for modern styling -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/static/style.css">
@@ -12,46 +13,99 @@
     <!-- FontAwesome for icons -->
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
+    <!-- Bootstrap icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
             padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
         }
+
+        .dark-mode {
+            background-color: #121212;
+            color: white;
+        }
+
+        .light-mode {
+            background-color: white;
+            color: black;
+        }
+
+        .dark-card {
+            background-color: #343a40;
+            /* Dark card background */
+            color: white;
+            /* Text color for dark card */
+        }
+
+        .light-card {
+            background-color: white;
+            /* Light card background */
+            color: black;
+            /* Text color for light card */
+        }
+
         .input-group {
-            max-width: 200px; /* Limit the width of the input fields */
-            margin: 0 auto; /* Center the input groups */
+            max-width: 200px;
+            /* Limit the width of the input fields */
+            margin: 0 auto;
+            /* Center the input groups */
         }
+
         .btn-lg {
-            width: 100%; /* Make the button full-width */
+            width: 100%;
+            /* Make the button full-width */
         }
+
         .card {
             margin: 0 auto;
             padding: 15px;
         }
+
         #voteForm {
             display: flex;
             justify-content: space-around;
         }
+
         .form-label {
             font-size: 0.9rem;
         }
+
+        .white-border {
+            border: 1px solid white;
+            /* Adjust the border width as needed */
+        }
+
         #voteHistogram img {
-            max-width: 800px; /* Set a maximum width for the chart */
-            max-height: 300px; /* Set a maximum height for the chart */
+            max-width: 800px;
+            /* Set a maximum width for the chart */
+            max-height: 300px;
+            /* Set a maximum height for the chart */
             display: block;
             margin: 0 auto;
         }
     </style>
 </head>
-<body>
+
+<body class="light-mode">
     <div class="container mt-5">
-        <div class="card shadow-sm p-4">
-            <h1 class="text-center mb-4">
-                <i class="fas fa-vote-yea"></i> Quantum Voting System
-            </h1>
+        <div class="card shadow-sm p-4 light-card" id="themeCard">
+            <div class="d-flex justify-content-center">
+                <h1 class="text-center mb-4">
+                    <i class="fas fa-vote-yea"></i> Quantum Voting System
+                </h1>
+
+                <div class="position-absolute top-0 end-0 p-4">
+                    <button id="toggleButton" class="btn btn-primary">
+                        <i id="toggleIcon" class="bi bi-brightness-high"></i>
+                    </button>
+                </div>
+
+            </div>
 
             <div class="mb-4">
-                <h3 class="text-center">Enter the Votes for each Candidate:</h3>
+                <p class="h2 text-center p-3">Enter the Votes for each Candidate:</p>
                 <form id="voteForm">
                     <div class="input-group">
                         <label for="candidate1" class="form-label">Candidate 1 (Alice):</label>
@@ -85,12 +139,12 @@
             </div>
 
             <div id="results" class="mt-4" style="display:none;">
-                <div class="card p-3">
-                    <h2 class="text-center">Results:</h2>
+                <div class="card p-3 light-card" id="themeCard">
+                    <p class="h2 text-center">Results:</p>
                     <p><strong>Winner(s):</strong> <span id="winner"></span></p>
                     <p><strong>Total Votes:</strong> <span id="totalVotes"></span></p>
 
-                    <h3 class="text-center">Vote Counts:</h3>
+                    <p class="h3 text-center">Vote Counts:</p>
                     <div id="voteHistogram">
                         <img id="histogram" class="img-fluid" src="" alt="Vote Histogram" />
                     </div>
@@ -105,7 +159,7 @@
 
     <!-- Script to handle voting functionality -->
     <script>
-        document.getElementById("voteButton").addEventListener("click", function() {
+        document.getElementById("voteButton").addEventListener("click", function () {
             document.getElementById("loading").style.display = "block";
             document.getElementById("results").style.display = "none";
 
@@ -125,25 +179,62 @@
                 },
                 body: JSON.stringify({ votes: votes })
             })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById("loading").style.display = "none";
-                document.getElementById("results").style.display = "block";
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("loading").style.display = "none";
+                    document.getElementById("results").style.display = "block";
 
-                // Handling joint winners in case of ties
-                const maxVotes = Math.max(...votes);
-                const winners = [];
-                for (let i = 0; i < votes.length; i++) {
-                    if (votes[i] === maxVotes) {
-                        winners.push("Candidate " + (i + 1));
+                    // Handling joint winners in case of ties
+                    const maxVotes = Math.max(...votes);
+                    const winners = [];
+                    for (let i = 0; i < votes.length; i++) {
+                        if (votes[i] === maxVotes) {
+                            winners.push("Candidate " + (i + 1));
+                        }
                     }
-                }
 
-                document.getElementById("winner").innerText = winners.join(", ");
-                document.getElementById("totalVotes").innerText = data.votes + " votes";
-                document.getElementById("histogram").src = "data:image/png;base64," + data.image;
-            });
+                    document.getElementById("winner").innerText = winners.join(", ");
+                    document.getElementById("totalVotes").innerText = data.votes + " votes";
+                    document.getElementById("histogram").src = "data:image/png;base64," + data.image;
+                });
         });
+
+        const toggleButton = document.getElementById('toggleButton');
+        const body = document.body;
+        const toggleIcon = document.getElementById('toggleIcon');
+        const themeCard = document.getElementById('themeCard');
+        const resultsCard = document.getElementById('results').querySelector('.card'); // Select inner card
+
+        // Check for saved user preference
+        const currentTheme = localStorage.getItem('theme');
+        if (currentTheme) {
+            body.className = currentTheme;
+            themeCard.className = currentTheme === 'dark-mode' ? 'card dark-card white-border' : 'card light-card border';
+            resultsCard.className = currentTheme === 'dark-mode' ? 'card dark-card white-border' : 'card light-card border'; // Apply theme to results card
+            toggleIcon.className = currentTheme === 'dark-mode' ? 'bi bi-moon' : 'bi bi-brightness-high';
+        }
+
+        // Toggle theme on button click
+        toggleButton.addEventListener('click', () => {
+            if (body.classList.contains('light-mode')) {
+                body.classList.remove('light-mode');
+                body.classList.add('dark-mode');
+                themeCard.className = 'card dark-card white-border'; // Change theme card to dark
+                resultsCard.className = 'card dark-card white-border'; // Change results card to dark
+                toggleIcon.className = 'bi bi-moon'; // Change icon to moon
+                localStorage.setItem('theme', 'dark-mode');
+            } else {
+                body.classList.remove('dark-mode');
+                body.classList.add('light-mode');
+                themeCard.className = 'card light-card border'; // Change theme card to light
+                resultsCard.className = 'card light-card border'; // Change results card to light
+                toggleIcon.className = 'bi bi-brightness-high'; // Change icon to sun
+                localStorage.setItem('theme', 'light-mode');
+            }
+        });
+
+
     </script>
 </body>
+
 </html>
