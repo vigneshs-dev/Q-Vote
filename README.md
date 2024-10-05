@@ -10,18 +10,18 @@ Q-Vote simulates a secure voting process using quantum computing, with future pl
 
 ```mermaid
 graph TD
-    A[Client Browser] -->|HTTP Request| B[Flask Web Server]
+    A[Client Browser] -->|Request| B[Flask Web Server]
     B -->|Render| C[index.html]
-    B -->|/vote endpoint| D[Classical Voting Simulation]
-    D -->|Collect| E[Candidate Votes]
-    E -->|Calculate| F[Identify Winner(s)]
-    F -->|Check for Joint Winners| G[Check for Ties]
-    G -->|Return| H[Winner(s)]
-    F -->|Generate| I[Vote Histogram Plot]
-    I -->|Encode| J[Base64 Image]
-    D -->|Collect Results| K[JSON Response]
-    J -->|Include| K
-    K -->|HTTP Response| A
+    B -->|Vote| D[Classical Voting Simulation]
+    D --> E[Candidate Votes]
+    E --> F[Identify Winner]
+    F --> G[Check Ties]
+    G --> H[Winner]
+    F --> I[Histogram Plot]
+    I --> J[Base64 Image]
+    D --> K[JSON Response]
+    J --> K
+    K -->|Response| A
     
     subgraph Voting Logic
     E
