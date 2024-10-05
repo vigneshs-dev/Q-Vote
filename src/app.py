@@ -1,5 +1,4 @@
-from flask import Flask, render_template, jsonify
-import random
+from flask import Flask, render_template, request, jsonify
 import numpy as np
 from qiskit import QuantumCircuit
 from qiskit_aer import Aer
@@ -11,17 +10,9 @@ import base64
 # Constants for quantum voting
 NUM_CANDIDATES = 4  # Number of candidates in the election
 NUM_QUBITS = 2      # Number of qubits needed (2 qubits can represent 4 states, 00, 01, 10, 11)
-NUM_VOTERS = 10     # Number of voters participating in the voting simulation
 
 # Function to encode votes using amplitude encoding into a quantum circuit
 def amplitude_encoding(vote_vec, quantum_circuit):
-    """
-    Encodes a vote vector into a quantum circuit using amplitude encoding.
-    
-    Args:
-        vote_vec (list): A list representing a vote vector (one-hot encoded).
-        quantum_circuit (QuantumCircuit): A quantum circuit object to encode the vote.
-    """
     norm = np.linalg.norm(vote_vec)  # Normalize the vote vector
     normalized_vector = vote_vec / norm
     quantum_circuit.initialize(normalized_vector, [0, 1])  # Initialize the circuit with the normalized vector
@@ -32,33 +23,19 @@ app = Flask(__name__)
 # Homepage route
 @app.route('/')
 def index():
-    """
-    Route for the homepage. Renders the index.html template.
-    """
     return render_template('index.html')
 
 # Voting route to trigger quantum voting simulation
-@app.route('/vote')
+@app.route('/vote', methods=['POST'])
 def vote():
-    """
-    Route to simulate a quantum voting system. It simulates votes from multiple voters, 
-    encodes them into quantum circuits, and then determines the winner based on the quantum measurement results.
-    
-    Returns:
-        JSON response containing:
-            - vote_counts: A dictionary with the counts of each vote outcome.
-            - winner: The winner candidate based on the highest vote count.
-            - votes: The total number of votes received by the winner.
-            - image: Base64-encoded image of the vote distribution histogram.
-    """
+    # Get the votes from the form
+    user_votes = request.json['votes']
+
     vote_counts = {'00': 0, '01': 0, '10': 0, '11': 0}  # Dictionary to store vote counts for each candidate (binary)
 
-    for _ in range(NUM_VOTERS):
+    for vote_choice in user_votes:
         # Create a new quantum circuit for each voter with 2 qubits and 2 classical bits
         qc = QuantumCircuit(NUM_QUBITS, NUM_QUBITS)
-
-        # Generate a random vote for one of the 4 candidates (represented as binary 00, 01, 10, 11)
-        vote_choice = random.randint(0, NUM_CANDIDATES - 1)
 
         # Create a one-hot encoded vote vector (e.g., [0, 1, 0, 0] for vote 01)
         vote_vector = [0] * NUM_CANDIDATES

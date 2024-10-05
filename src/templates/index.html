@@ -19,11 +19,18 @@
                 <i class="fas fa-vote-yea"></i> Quantum Voting System
             </h1>
 
-            <div class="text-center">
-                <button id="voteButton" class="btn btn-primary btn-lg">
-                    <i class="fas fa-play-circle"></i> Start Voting
-                </button>
-            </div>
+            <form id="votingForm">
+                <div class="mb-3">
+                    <label for="voterCount" class="form-label">Enter Votes (0 to 3 for each candidate):</label>
+                    <input type="text" id="votesInput" class="form-control" placeholder="e.g., 0, 1, 2, 3, 1, 2" />
+                    <small class="form-text text-muted">Enter your votes as comma-separated values.</small>
+                </div>
+                <div class="text-center">
+                    <button id="voteButton" type="button" class="btn btn-primary btn-lg">
+                        <i class="fas fa-play-circle"></i> Find Winner
+                    </button>
+                </div>
+            </form>
 
             <div id="loading" class="text-center mt-4" style="display:none;">
                 <div class="spinner-border text-primary" role="status">
@@ -54,19 +61,28 @@
     <!-- Script to handle voting functionality -->
     <script>
         document.getElementById("voteButton").addEventListener("click", function() {
+            const votesInput = document.getElementById("votesInput").value;
+            const votes = votesInput.split(',').map(Number);  // Convert the input into an array of numbers
+
             document.getElementById("loading").style.display = "block";
             document.getElementById("results").style.display = "none";
             
-            fetch("/vote")
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById("loading").style.display = "none";
-                    document.getElementById("results").style.display = "block";
+            fetch("/vote", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ votes })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("loading").style.display = "none";
+                document.getElementById("results").style.display = "block";
 
-                    document.getElementById("winner").innerText = "Candidate " + data.winner;
-                    document.getElementById("totalVotes").innerText = data.votes + " votes";
-                    document.getElementById("histogram").src = "data:image/png;base64," + data.image;
-                });
+                document.getElementById("winner").innerText = "Candidate " + data.winner;
+                document.getElementById("totalVotes").innerText = data.votes + " votes";
+                document.getElementById("histogram").src = "data:image/png;base64," + data.image;
+            });
         });
     </script>
 </body>
