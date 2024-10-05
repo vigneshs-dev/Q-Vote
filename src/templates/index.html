@@ -12,10 +12,29 @@
     <!-- FontAwesome for icons -->
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
+    <!-- Bootstrap icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
             padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .dark-mode {
+            background-color: #121212;
+            color: white;
+        }
+        .light-mode {
+            background-color: white;
+            color: black;
+        }
+        .dark-card {
+            background-color: #343a40; /* Dark card background */
+            color: white; /* Text color for dark card */
+        }
+        .light-card {
+            background-color: white; /* Light card background */
+            color: black; /* Text color for light card */
         }
         .input-group {
             max-width: 200px; /* Limit the width of the input fields */
@@ -43,15 +62,24 @@
         }
     </style>
 </head>
-<body>
+<body class="light-mode">
     <div class="container mt-5">
-        <div class="card shadow-sm p-4">
-            <h1 class="text-center mb-4">
-                <i class="fas fa-vote-yea"></i> Quantum Voting System
-            </h1>
+        <div class="card shadow-sm p-4 light-card" id="themeCard">
+            <div class="d-flex justify-content-center">
+                <h1 class="text-center mb-4">
+                    <i class="fas fa-vote-yea"></i> Quantum Voting System
+                </h1>
+    
+                <div class="position-absolute top-0 end-0 p-4">
+                    <button id="toggleButton" class="btn btn-primary">
+                        <i id="toggleIcon" class="bi bi-brightness-high"></i>
+                    </button>
+                </div>
+
+            </div>
 
             <div class="mb-4">
-                <h3 class="text-center">Enter the Votes for each Candidate:</h3>
+                <p class="h2 text-center p-3">Enter the Votes for each Candidate:</p>
                 <form id="voteForm">
                     <div class="input-group">
                         <label for="candidate1" class="form-label">Candidate 1 (Alice):</label>
@@ -85,7 +113,7 @@
             </div>
 
             <div id="results" class="mt-4" style="display:none;">
-                <div class="card p-3">
+                <div class="card p-3 light-card" id="themeCard">
                     <h2 class="text-center">Results:</h2>
                     <p><strong>Winner(s):</strong> <span id="winner"></span></p>
                     <p><strong>Total Votes:</strong> <span id="totalVotes"></span></p>
@@ -144,6 +172,38 @@
                 document.getElementById("histogram").src = "data:image/png;base64," + data.image;
             });
         });
+
+        // script.js
+const toggleButton = document.getElementById('toggleButton');
+const body = document.body;
+const toggleIcon = document.getElementById('toggleIcon');
+const themeCard = document.getElementById('themeCard');
+
+// Check for saved user preference
+const currentTheme = localStorage.getItem('theme');
+if (currentTheme) {
+    body.className = currentTheme;
+    themeCard.className = currentTheme === 'dark-mode' ? 'card dark-card' : 'card light-card';
+    toggleIcon.className = currentTheme === 'dark-mode' ? 'bi bi-moon' : 'bi bi-brightness-high';
+}
+
+// Toggle theme on button click
+toggleButton.addEventListener('click', () => {
+    if (body.classList.contains('light-mode')) {
+        body.classList.remove('light-mode');
+        body.classList.add('dark-mode');
+        themeCard.className = 'card dark-card'; // Change card to dark
+        toggleIcon.className = 'bi bi-moon'; // Change icon to moon
+        localStorage.setItem('theme', 'dark-mode');
+    } else {
+        body.classList.remove('dark-mode');
+        body.classList.add('light-mode');
+        themeCard.className = 'card light-card'; // Change card to light
+        toggleIcon.className = 'bi bi-brightness-high'; // Change icon to sun
+        localStorage.setItem('theme', 'light-mode');
+    }
+});
+
     </script>
 </body>
 </html>

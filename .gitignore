@@ -4,6 +4,7 @@ __pycache__/
 
 # Virtual environment
 venv/
+env/
 *.env
 
 # Jupyter Notebook checkpoints
