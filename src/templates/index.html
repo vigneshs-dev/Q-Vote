@@ -19,18 +19,30 @@
                 <i class="fas fa-vote-yea"></i> Quantum Voting System
             </h1>
 
-            <form id="votingForm">
-                <div class="mb-3">
-                    <label for="voterCount" class="form-label">Enter Votes (0 to 3 for each candidate):</label>
-                    <input type="text" id="votesInput" class="form-control" placeholder="e.g., 0, 1, 2, 3, 1, 2" />
-                    <small class="form-text text-muted">Enter your votes as comma-separated values.</small>
-                </div>
-                <div class="text-center">
-                    <button id="voteButton" type="button" class="btn btn-primary btn-lg">
+            <div class="mb-4">
+                <h3>Enter the number of votes for each candidate:</h3>
+                <form id="voteForm">
+                    <div class="mb-3">
+                        <label for="candidate1" class="form-label">Candidate 1 (Alice):</label>
+                        <input type="number" class="form-control" id="candidate1" value="0">
+                    </div>
+                    <div class="mb-3">
+                        <label for="candidate2" class="form-label">Candidate 2 (Bob):</label>
+                        <input type="number" class="form-control" id="candidate2" value="0">
+                    </div>
+                    <div class="mb-3">
+                        <label for="candidate3" class="form-label">Candidate 3 (Charlie):</label>
+                        <input type="number" class="form-control" id="candidate3" value="0">
+                    </div>
+                    <div class="mb-3">
+                        <label for="candidate4" class="form-label">Candidate 4 (Diana):</label>
+                        <input type="number" class="form-control" id="candidate4" value="0">
+                    </div>
+                    <button type="button" id="voteButton" class="btn btn-primary btn-lg">
                         <i class="fas fa-play-circle"></i> Find Winner
                     </button>
-                </div>
-            </form>
+                </form>
+            </div>
 
             <div id="loading" class="text-center mt-4" style="display:none;">
                 <div class="spinner-border text-primary" role="status">
@@ -61,25 +73,31 @@
     <!-- Script to handle voting functionality -->
     <script>
         document.getElementById("voteButton").addEventListener("click", function() {
-            const votesInput = document.getElementById("votesInput").value;
-            const votes = votesInput.split(',').map(Number);  // Convert the input into an array of numbers
-
             document.getElementById("loading").style.display = "block";
             document.getElementById("results").style.display = "none";
+
+            // Get votes from input fields
+            const votes = [
+                parseInt(document.getElementById("candidate1").value),
+                parseInt(document.getElementById("candidate2").value),
+                parseInt(document.getElementById("candidate3").value),
+                parseInt(document.getElementById("candidate4").value)
+            ];
             
+            // Send votes to the server
             fetch("/vote", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ votes })
+                body: JSON.stringify({ votes: votes })
             })
             .then(response => response.json())
             .then(data => {
                 document.getElementById("loading").style.display = "none";
                 document.getElementById("results").style.display = "block";
 
-                document.getElementById("winner").innerText = "Candidate " + data.winner;
+                document.getElementById("winner").innerText = "Candidate " + (data.winner + 1);
                 document.getElementById("totalVotes").innerText = data.votes + " votes";
                 document.getElementById("histogram").src = "data:image/png;base64," + data.image;
             });
