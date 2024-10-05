@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voting Results</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Results</h1>
+
+        <table class="vote-results">
+            <thead>
+                <tr>
+                    <th>Candidate</th>
+                    <th>Total Votes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in vote_counts %}
+                    <tr>
+                        <td>Candidate {{ row.candidate }}</td>
+                        <td>{{ row.count }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Winner(s):</h2>
+        <ul class="winners-list">
+            {% for winner in winners %}
+                <li>Candidate {{ winner }} with {{ max_votes }} vote(s)</li>
+            {% endfor %}
+        </ul>
+
+        <a href="/logout" class="btn-logout">Logout</a>
+    </div>
+</body>
+</html>
