@@ -87,7 +87,7 @@
             <div id="results" class="mt-4" style="display:none;">
                 <div class="card p-3">
                     <h2 class="text-center">Results:</h2>
-                    <p><strong>Winner:</strong> <span id="winner"></span></p>
+                    <p><strong>Winner(s):</strong> <span id="winner"></span></p>
                     <p><strong>Total Votes:</strong> <span id="totalVotes"></span></p>
 
                     <h3 class="text-center">Vote Counts:</h3>
@@ -116,7 +116,7 @@
                 parseInt(document.getElementById("candidate3").value),
                 parseInt(document.getElementById("candidate4").value)
             ];
-            
+
             // Send votes to the server
             fetch("/vote", {
                 method: "POST",
@@ -130,7 +130,16 @@
                 document.getElementById("loading").style.display = "none";
                 document.getElementById("results").style.display = "block";
 
-                document.getElementById("winner").innerText = "Candidate " + (data.winner + 1);
+                // Handling joint winners in case of ties
+                const maxVotes = Math.max(...votes);
+                const winners = [];
+                for (let i = 0; i < votes.length; i++) {
+                    if (votes[i] === maxVotes) {
+                        winners.push("Candidate " + (i + 1));
+                    }
+                }
+
+                document.getElementById("winner").innerText = winners.join(", ");
                 document.getElementById("totalVotes").innerText = data.votes + " votes";
                 document.getElementById("histogram").src = "data:image/png;base64," + data.image;
             });
