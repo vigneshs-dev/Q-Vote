@@ -12,27 +12,49 @@ Q-Vote simulates a secure voting process using quantum computing, with future pl
 graph TD
     A[Client Browser] -->|Request| B[Flask Web Server]
     B -->|Render| C[index.html]
-    B -->|Vote| D[Classical Voting Simulation]
-    D --> E[Candidate Votes]
-    E --> F[Identify Winner]
-    F --> G[Check Ties]
-    G --> H[Winner]
-    F --> I[Histogram Plot]
-    I --> J[Base64 Image]
-    D --> K[JSON Response]
-    J --> K
-    K -->|Response| A
+    B -->|Vote| D[Voting Simulation]
+    D --> E[Classical Voting]
+    D --> F[Quantum Voting]
     
-    subgraph Voting Logic
+    E --> G[Collect Votes]
+    G --> H[Identify Winner]
+    
+    F --> I[Quantum Circuit]
+    I --> J[Amplitude Encoding]
+    J --> K[Apply Gates]
+    K --> L[Measurement]
+    L --> M[Interpret Results]
+    
+    H --> N[Check Ties]
+    M --> N
+    N --> O[Final Winner]
+    
+    O --> P[Generate Plot]
+    P --> Q[Base64 Image]
+    D --> R[JSON Response]
+    Q --> R
+    R -->|Response| A
+    
+    subgraph Classical Logic
     E
-    F
     G
     H
     end
     
-    subgraph Result Processing
+    subgraph Quantum Logic
+    F
     I
     J
+    K
+    L
+    M
+    end
+    
+    subgraph Result Processing
+    N
+    O
+    P
+    Q
     end
 ```
 
