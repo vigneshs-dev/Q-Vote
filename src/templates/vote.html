@@ -10,6 +10,7 @@
 <body>
     <div class="container">
         <h1>Vote for Your Preferred Candidate</h1>
+        
         <form action="/vote" method="POST" class="form-vote">
             <label for="candidate">Select a candidate:</label>
             <select name="candidate" id="candidate" class="candidate-select">
@@ -21,6 +22,16 @@
             <br><br>
             <button type="submit" class="btn-submit">Submit Vote</button>
         </form>
+
+        <!-- Displaying Current Vote Counts -->
+        <h2>Current Vote Counts:</h2>
+        <ul class="vote-counts">
+            {% for row in current_vote_counts %}
+                <li>Candidate {{ row.candidate }}: {{ row.count }} votes</li>
+            {% endfor %}
+        </ul>
+
+        <a href="/logout" class="btn-logout">Logout</a>
     </div>
 </body>
 </html>
