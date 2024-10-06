@@ -15,81 +15,26 @@
 
     <!-- Bootstrap icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .dark-mode {
-            background-color: #121212;
-            color: white;
-        }
-
-        .light-mode {
-            background-color: white;
-            color: black;
-        }
-
-        .dark-card {
-            background-color: #343a40;
-            /* Dark card background */
-            color: white;
-            /* Text color for dark card */
-        }
-
-        .light-card {
-            background-color: white;
-            /* Light card background */
-            color: black;
-            /* Text color for light card */
-        }
-
-        .input-group {
-            max-width: 200px;
-            /* Limit the width of the input fields */
-            margin: 0 auto;
-            /* Center the input groups */
-        }
-
-        .btn-lg {
-            width: 100%;
-            /* Make the button full-width */
-        }
-
-        .card {
-            margin: 0 auto;
-            padding: 15px;
-        }
-
-        #voteForm {
-            display: flex;
-            justify-content: space-around;
-        }
-
-        .form-label {
-            font-size: 0.9rem;
-        }
-
-        .white-border {
-            border: 1px solid white;
-            /* Adjust the border width as needed */
-        }
-
-        #voteHistogram img {
-            max-width: 800px;
-            /* Set a maximum width for the chart */
-            max-height: 300px;
-            /* Set a maximum height for the chart */
-            display: block;
-            margin: 0 auto;
-        }
-    </style>
 </head>
 
-<body class="light-mode">
-    <div class="container mt-5">
+<div>
+    <div id="header">
+        <div class="logo">
+          <a href="#">Q-Vote</a>
+        </div>  
+        <nav>
+          <ul>            
+            <li >
+              <a href="{{ url_for('login') }}">Login</a>                        
+            </li>
+            <li>
+              <a href="{{ url_for('signup') }}">Signup</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+    <div class="container mt-5 light-mode">
         <div class="card shadow-sm p-4 light-card" id="themeCard">
             <div class="d-flex justify-content-center">
                 <h1 class="text-center mb-4">

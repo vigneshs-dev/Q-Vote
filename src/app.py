@@ -18,6 +18,22 @@ def index():
     """
     return render_template('index.html')
 
+#Login page
+@app.route('/login')
+def login():
+    """
+    Route for the login page. Renders the login.html template.
+    """
+    return render_template('login.html')
+
+#Signup page
+@app.route('/signup')
+def signup():
+    """
+    Route for the login page. Renders the signup.html template.
+    """
+    return render_template('signup.html')
+
 # Voting route to trigger quantum voting simulation
 @app.route('/vote', methods=['POST'])
 def vote():

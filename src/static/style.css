@@ -1,6 +1,8 @@
 body {
     background-color: #f0f2f5;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.5;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 h1 {
@@ -31,3 +33,212 @@ button {
     max-width: 100%;
     margin-top: 20px;
 }
+
+.dark-mode {
+    background-color: #121212;
+    color: white;
+}
+
+.light-mode {
+    color: black;
+}
+
+.dark-card {
+    background-color: #343a40;
+    /* Dark card background */
+    color: white;
+    /* Text color for dark card */
+}
+
+.light-card {
+    background-color: white;
+    /* Light card background */
+    color: black;
+    /* Text color for light card */
+}
+
+.input-group {
+    max-width: 200px;
+    /* Limit the width of the input fields */
+    margin: 0 auto;
+    /* Center the input groups */
+}
+
+.btn-lg {
+    width: 100%;
+    /* Make the button full-width */
+}
+
+.card {
+    margin: 0 auto;
+    padding: 15px;
+}
+
+#voteForm {
+    display: flex;
+    justify-content: space-around;
+}
+
+.form-label {
+    font-size: 0.9rem;
+}
+
+.white-border {
+    border: 1px solid white;
+    /* Adjust the border width as needed */
+}
+
+#voteHistogram img {
+    max-width: 800px;
+    /* Set a maximum width for the chart */
+    max-height: 300px;
+    /* Set a maximum height for the chart */
+    display: block;
+    margin: 0 auto;
+}  
+
+*,
+        *:before,
+        *:after {
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        }
+        a {
+        text-decoration: none;
+        color: #fff;
+        }
+        #header {
+        background: #1e262d;
+        width: 100%;
+        position: relative;
+        border-radius: 0px 0px 40px 40px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+        #header:after {
+        content: "";
+        clear: both;
+        display: block;
+        }
+        .logo {
+        float: left;
+        padding: 26px 0 26px;
+        }
+        .logo a {
+        font-size: 28px;
+        display: block;
+        padding: 0 0 0 20px;
+        }
+        nav {
+        float: right;
+        }
+        nav > ul {
+        float: left;
+        position: relative;
+        }
+        nav li {
+        list-style: none;
+        float: left;
+        }
+        nav li a {
+        float: left;
+        padding: 20px;
+        }
+        nav li a:hover {
+        background: #2c3e50;
+        }
+        nav li ul {
+        display: none;
+        }
+        nav li:hover ul {
+        display: inline;
+        }
+        nav li li {
+        float: none;
+        }
+        nav li li a {
+        float: none;
+        color: #333;
+        display: block;
+        padding: 8px 10px;
+        border-radius: 3px;
+        font-size: 13px;
+        }
+        nav li li a:hover {
+        background: #b6d6ec;
+        background: #b6d6ec;
+        }
+        @media only screen and (max-width: 1170px) {
+        nav > ul > li > a {
+            padding: 35px 15px;
+        }
+        }
+        @media only screen and (min-width: 960px) {
+        nav {
+            display: block !important;
+        }
+        }
+        @media only screen and (max-width: 959px) {
+        nav {
+            display: none;
+            width: 100%;
+            clear: both;
+            float: none;
+            max-height: 400px;
+            overflow-y: scroll;
+        }
+        #menu-icon {
+            display: inline;
+            top: 45px;
+            cursor: pointer;
+        }
+        #menu-icon.active .first {
+            transform: rotate(45deg);
+            -webkit-transform: rotate(45deg);
+            margin-top: 10px;
+        }
+        #menu-icon.active .second {
+            transform: rotate(135deg);
+            -webkit-transform: rotate(135deg);
+            position: relative;
+            top: -9px;
+        }
+        #menu-icon.active .third {
+            display: none;
+        }
+        nav {
+            padding: 10px;
+        }
+        nav ul {
+            float: none;
+        }
+        nav li {
+            float: none;
+        }
+        nav ul li a {
+            float: none;
+            padding: 8px;
+            display: block;
+        }
+        #header nav ul ul {
+            display: block;
+            position: static;
+            background: none;
+            border: none;
+            padding: 0;
+        }
+        #header nav a {
+            color: #fff;
+            padding: 8px;
+        }
+        #header nav a:hover {
+            background: #fff;
+            color: #333;
+            border-radius: 3px;
+        }
+        #header nav ul li li a:before {
+            content: "- ";
+        }
+    }

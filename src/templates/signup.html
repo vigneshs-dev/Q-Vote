@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title> Login </title>
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script><link rel="stylesheet" href="../static/login.css">
+
+</head>
+<body>
+    <section>
+        <form>
+            <h1>Signup</h1>
+            <div class="inputbox">
+                <ion-icon name=""></ion-icon>
+                <input type="text" required>
+                <label for="">Name</label>
+            </div>
+            <div class="inputbox">
+                <ion-icon name="mail-outline"></ion-icon>
+                <input type="email" required>
+                <label for="">Email</label>
+            </div>
+            <div class="inputbox">
+                <ion-icon name="lock-closed-outline"></ion-icon>
+                <input type="password" required>
+                <label for="">Password</label>
+            </div>
+            <button>Sign up</button>
+            <div class="register">
+                <p>Have an account <a href="{{ url_for('login') }}">Login</a></p>
+            </div>
+        </form>
+    </section>
+</body>
+</html>
