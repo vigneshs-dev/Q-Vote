@@ -2,17 +2,45 @@
 import math
 import hashlib
 import random
-import numpy as np
+import sqlite3
+from flask import Flask, render_template, request, redirect, url_for, session, flash
+from werkzeug.security import generate_password_hash, check_password_hash
 from qiskit import QuantumCircuit
 from qiskit_aer import AerSimulator
 from qiskit.compiler import transpile
 
-# Voter Class (Alice)
+# Initialize Flask App
+app = Flask(__name__)
+app.secret_key = 'your_secret_key'
+
+# Database connection function
+def get_db_connection():
+    conn = sqlite3.connect('votes.db')
+    conn.row_factory = sqlite3.Row
+    return conn
+
+def create_tables():
+    conn = get_db_connection()
+    conn.execute('''CREATE TABLE IF NOT EXISTS users (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    username TEXT NOT NULL UNIQUE,
+                    password TEXT NOT NULL,
+                    has_voted BOOLEAN NOT NULL DEFAULT 0)''')
+    
+    conn.execute('''CREATE TABLE IF NOT EXISTS votes (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    user_id INTEGER NOT NULL,
+                    candidate INTEGER NOT NULL,
+                    FOREIGN KEY (user_id) REFERENCES users (id))''')
+    conn.commit()
+    conn.close()
+
+# Voter Class
 class Voter:
-    def __init__(self, voter_id, secret_key_KAB, secret_key_KAC):
-        self.voter_id = voter_id  # Voter ID assigned by Bob
-        self.secret_key_KAB = secret_key_KAB  # Secret key shared with Bob
-        self.secret_key_KAC = secret_key_KAC  # Secret key shared with Charlie
+    def __init__(self, voter_id, secret_key_AB, secret_key_AC):
+        self.voter_id = voter_id  # Voter ID assigned by Tallyman
+        self.secret_key_AB = secret_key_AB  # Secret key shared with Tallyman
+        self.secret_key_AC = secret_key_AC  # Secret key shared with Scrutineer
         self.hash_id = self.create_hash_id()  # Hash of voter ID for anonymity
     
     def create_hash_id(self):
@@ -51,7 +79,7 @@ class Voter:
         signed_vote = vote_circuit.compose(sign_circuit)
         return signed_vote
 
-# Tallyman Class (Bob)
+# Tallyman Class
 class Tallyman:
     def __init__(self):
         self.voter_database = {}  # Store hash IDs and votes
@@ -59,9 +87,9 @@ class Tallyman:
     def issue_voter_id(self, voter_name):
         """Issue a unique voter ID and generate secret keys."""
         voter_id = f"{voter_name}_{random.randint(1000,9999)}"
-        secret_key_KAB = bin(random.getrandbits(4))[2:].zfill(4)
-        secret_key_KAC = bin(random.getrandbits(4))[2:].zfill(4)
-        return voter_id, secret_key_KAB, secret_key_KAC
+        secret_key_AB = bin(random.getrandbits(4))[2:].zfill(4)
+        secret_key_AC = bin(random.getrandbits(4))[2:].zfill(4)
+        return voter_id, secret_key_AB, secret_key_AC
 
     def store_vote(self, hash_id, vote_circuit):
         """Store the vote in the database."""
@@ -91,14 +119,149 @@ class Tallyman:
 
         return results
 
-# Scrutineer Class (Charlie)
+# Scrutineer Class
 class Scrutineer:
-    def __init__(self, secret_key_KAC):
-        self.secret_key_KAC = secret_key_KAC  # Secret key shared with Voter (Alice)
+    def __init__(self, secret_key_AC):
+        self.secret_key_AC = secret_key_AC  # Secret key shared with Voter
     
     def verify_vote(self, hash_id, voting_db):
         """Verify if a vote exists in the database using hash ID."""
         return hash_id in voting_db
+
+# Registration route
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        hashed_password = generate_password_hash(password, method='pbkdf2:sha256', salt_length=16)
+
+        conn = get_db_connection()
+        try:
+            conn.execute('INSERT INTO users (username, password, has_voted) VALUES (?, ?, ?)', 
+                         (username, hashed_password, False))
+            conn.commit()
+            conn.close()
+            flash("Registration successful. Please log in.")
+            return redirect(url_for('login'))
+        except sqlite3.IntegrityError:
+            conn.close()
+            flash("Username already taken. Please try a different one.")
+            return redirect(url_for('register'))
+    
+    return render_template('register.html')
+
+# Login route
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        conn = get_db_connection()
+        user = conn.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
+        conn.close()
+
+        if user and check_password_hash(user['password'], password):
+            session['user_id'] = user['id']
+            session['username'] = username
+            flash("Login successful.")
+            return redirect(url_for('vote'))
+        else:
+            flash("Invalid credentials. Please try again.")
+            return redirect(url_for('login'))
+
+    return render_template('login.html')
+
+@app.route('/vote', methods=['GET', 'POST'])
+def vote():
+    if 'user_id' not in session:
+        flash("Please log in to vote.", category='warning')
+        return redirect(url_for('login'))
+    
+    conn = get_db_connection()
+    user = conn.execute('SELECT * FROM users WHERE id = ?', (session['user_id'],)).fetchone()
+    
+    # Check if user has already voted
+    if user['has_voted']:
+        conn.close()
+        flash("You have already voted. You cannot vote again.", category='error')
+        return redirect(url_for('results'))
+
+    if request.method == 'POST':
+        candidate = int(request.form['candidate'])
+        adjusted_candidate = candidate - 1
+        
+        # Insert the vote
+        conn.execute('INSERT INTO votes (user_id, candidate) VALUES (?, ?)', (session['user_id'], adjusted_candidate))
+        conn.execute('UPDATE users SET has_voted = ? WHERE id = ?', (True, session['user_id']))
+        conn.commit()
+        conn.close()
+        flash("Your vote has been recorded successfully!", category='success')
+        return redirect(url_for('results'))
+    
+    # Fetch current vote counts for display
+    current_vote_counts = conn.execute('SELECT candidate, COUNT(*) as count FROM votes GROUP BY candidate').fetchall()
+    conn.close()
+    
+    # Prepare vote counts for rendering
+    adjusted_counts = [(row['candidate'] + 1, row['count']) for row in current_vote_counts]
+    all_candidates = {1: 0, 2: 0, 3: 0, 4: 0}
+    for candidate, count in adjusted_counts:
+        all_candidates[candidate] = count
+        
+    vote_counts = [(candidate, count) for candidate, count in all_candidates.items()]
+    return render_template('vote.html', current_vote_counts=vote_counts)
+
+@app.route('/results')
+def results():
+    if 'user_id' not in session:
+        flash("Please log in to view results.")
+        return redirect(url_for('login'))
+
+    conn = get_db_connection()
+    votes_from_db = conn.execute('SELECT candidate FROM votes').fetchall()
+    users_from_db = conn.execute('SELECT username FROM users').fetchall()
+    conn.close()
+
+    user_votes_db = [row['candidate'] for row in votes_from_db]
+    usernames_db = [row['username'] for row in users_from_db]
+
+    tallyman = Tallyman()
+    secret_key_AC = bin(random.getrandbits(4))[2:].zfill(4)
+    scrutineer = Scrutineer(secret_key_AC)
+
+    for user, user_vote in zip(usernames_db, user_votes_db):
+        voter_id, secret_key_AB, secret_key_AC = tallyman.issue_voter_id(user)
+        voter = Voter(voter_id, secret_key_AB, secret_key_AC)
+
+        vote_circuit = voter.encode_vote([1 if i == user_vote else 0 for i in range(4)])
+        signed_vote = voter.sign_vote(vote_circuit)
+        tallyman.store_vote(voter.hash_id, signed_vote)
+
+        if scrutineer.verify_vote(voter.hash_id, tallyman.voter_database):
+            print(f"Vote verified by Scrutineer for voter hash ID: {voter.hash_id}")
+        else:
+            print(f"Vote could not be verified by Scrutineer.")
+
+    results = tallyman.tally_votes()
+    print("Quantum Vote Counts:", results)
+
+    # Adjust the results to be 1-based
+    adjusted_results = {k+1: v for k, v in results.items()}
+
+    max_votes = max(adjusted_results.values())
+    winners = [candidate for candidate, count in adjusted_results.items() if count == max_votes]
+
+    return render_template('results.html', vote_counts=adjusted_results, winners=winners, max_votes=max_votes)
+
+# Logout route
+@app.route('/logout')
+def logout():
+    session.pop('user_id', None)
+    session.pop('username', None)
+    flash("You have been logged out.")
+    return redirect(url_for('login'))
 
 # Function to determine the winner
 def determine_winner(vote_counts):
@@ -106,44 +269,48 @@ def determine_winner(vote_counts):
     winner = max(vote_counts, key=vote_counts.get)
     return winner, vote_counts[winner]
 
-# Main Voting Program
+# Main Voting Program (Quantum Voting + Tally + Scrutineer Verification)
 def main():
-    # Initialize Bob (Tallyman) and Charlie (Scrutineer)
-    bob = Tallyman()
+    # Initialize Tallyman and Scrutineer
+    tallyman = Tallyman()
     
-    # Assuming Charlie has KAC to verify
-    secret_key_KAC = bin(random.getrandbits(4))[2:].zfill(4)
-    charlie = Scrutineer(secret_key_KAC)
+    # Assuming Scrutineer has AC to verify
+    secret_key_AC = bin(random.getrandbits(4))[2:].zfill(4)
+    scrutineer = Scrutineer(secret_key_AC)
     
-    # List to hold voters' names
-    voters = ["Alice", "Bob", "Charlie", "David", "Eve"]
+    # Retrieve votes from the database (simulate database query)
+    conn = get_db_connection()
+    votes_from_db = conn.execute('SELECT candidate FROM votes').fetchall()
+    conn.close()
     
-    for voter_name in voters:
-        # Simulate each voter casting their vote
-        voter_id, secret_key_KAB, secret_key_KAC = bob.issue_voter_id(voter_name)
-        alice = Voter(voter_id, secret_key_KAB, secret_key_KAC)
+    # Convert database votes to list of approvals (1 for approval, 0 for disapproval)
+    user_votes_db = [row['candidate'] for row in votes_from_db]
+    
+    # List of users to simulate voting (for this example)
+    users = ["user1", "user2", "user3", "user4", "user5"]
+    
+    for user, user_vote in zip(users, user_votes_db):
+        # Simulate each user as a voter
+        voter_id, secret_key_AB, secret_key_AC = tallyman.issue_voter_id(user)
+        voter = Voter(voter_id, secret_key_AB, secret_key_AC)
         
-        # Randomly generate a vote: 1 means approval, 0 means disapproval
-        # For simplicity, we randomly generate votes for 4 candidates (1s and 0s)
-        alice_vote = [random.randint(0, 1) for _ in range(4)]
+        # Voter encodes their vote into quantum circuit
+        vote_circuit = voter.encode_vote([1 if i == user_vote else 0 for i in range(4)])  # 4 candidates
         
-        # Alice encodes her vote into quantum circuit
-        vote_circuit = alice.encode_vote(alice_vote)
+        # Voter signs their vote
+        signed_vote = voter.sign_vote(vote_circuit)
         
-        # Alice signs her vote
-        signed_vote = alice.sign_vote(vote_circuit)
-        
-        # Store the vote in Bob's (Tallyman) database before verification
-        bob.store_vote(alice.hash_id, signed_vote)
+        # Store the vote in Tallyman's database before verification
+        tallyman.store_vote(voter.hash_id, signed_vote)
         
         # Verify if the vote exists in the database
-        if charlie.verify_vote(alice.hash_id, bob.voter_database):
-            print(f"Vote verified by Charlie for voter hash ID: {alice.hash_id}")
+        if scrutineer.verify_vote(voter.hash_id, tallyman.voter_database):
+            print(f"Vote verified by Scrutineer for voter hash ID: {voter.hash_id}")
         else:
-            print(f"Vote could not be verified by Charlie.")
+            print(f"Vote could not be verified by Scrutineer.")
     
-    # In your main function, after tallying votes:
-    results = bob.tally_votes()
+    # Tally the votes
+    results = tallyman.tally_votes()
     print("Vote Counts:", results)
 
     # Determine the maximum votes and find winners
@@ -157,6 +324,7 @@ def main():
         print(f"It's a tie! Candidates {', '.join(map(str, winners))} have the highest votes with {max_votes} votes.")
 
 
-# Run the program
+# Run the Flask app
 if __name__ == "__main__":
-    main()
+    create_tables()  # Ensure tables are created before running the app
+    app.run(debug=True)

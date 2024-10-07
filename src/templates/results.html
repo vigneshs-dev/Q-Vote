@@ -19,10 +19,10 @@
                 </tr>
             </thead>
             <tbody>
-                {% for row in vote_counts %}
+                {% for candidate, count in vote_counts.items() %}
                     <tr>
-                        <td>Candidate {{ row.candidate }}</td>
-                        <td>{{ row.count }}</td>
+                        <td>Candidate {{ candidate }}</td>
+                        <td>{{ count }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
