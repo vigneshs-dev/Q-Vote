@@ -61,6 +61,6 @@ Thumbs.db
 .env
 
 # Database file
-/instance
-votes.db  # Ignore the votes database file
-*.db
+# /instance
+# votes.db  # Ignore the votes database file
+# *.db
