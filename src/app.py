@@ -1,4 +1,5 @@
 # Import necessary libraries
+import os
 import math
 import hashlib
 import random
@@ -9,13 +10,17 @@ from qiskit import QuantumCircuit
 from qiskit_aer import AerSimulator
 from qiskit.compiler import transpile
 
+# Assuming the app.py is inside the 'src' directory
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Get the directory of the current file (src folder)
+DATABASE_PATH = os.path.join(BASE_DIR, 'votes.db')  # Set the database path inside the src folder
+
 # Initialize Flask App
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
-# Database connection function
+# Update the get_db_connection function
 def get_db_connection():
-    conn = sqlite3.connect('votes.db')
+    conn = sqlite3.connect(DATABASE_PATH)  # Connect using the absolute path
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -128,6 +133,16 @@ class Scrutineer:
         """Verify if a vote exists in the database using hash ID."""
         return hash_id in voting_db
 
+@app.route('/')
+def index():
+    # If the user is logged in
+    if 'user_id' in session:
+        return redirect(url_for('results'))
+    else:
+        # If not logged in, redirect to registration
+        return redirect(url_for('register'))
+
+
 # Registration route
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -163,10 +178,10 @@ def login():
         conn.close()
 
         if user is None:
-            flash("You need to register first before logging in.", category='warning')
-            return redirect(url_for('register'))  # Redirect to the register page
+            flash("User not found. Please register first.", 'error')
+            return redirect(url_for('register'))
 
-        if check_password_hash(user['password'], password):
+        if user and check_password_hash(user['password'], password):
             session['user_id'] = user['id']
             session['username'] = username
             flash("Login successful.")
@@ -176,6 +191,7 @@ def login():
             return redirect(url_for('login'))
 
     return render_template('login.html')
+
 
 
 @app.route('/vote', methods=['GET', 'POST'])
