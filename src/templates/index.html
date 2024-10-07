@@ -1,134 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quantum Voting System</title>
-
+    
     <!-- Bootstrap CSS for modern styling -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/static/style.css">
 
     <!-- FontAwesome for icons -->
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-
-    <!-- Bootstrap icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .dark-mode {
-            background-color: #121212;
-            color: white;
-        }
-
-        .light-mode {
-            background-color: white;
-            color: black;
-        }
-
-        .dark-card {
-            background-color: #343a40;
-            /* Dark card background */
-            color: white;
-            /* Text color for dark card */
-        }
-
-        .light-card {
-            background-color: white;
-            /* Light card background */
-            color: black;
-            /* Text color for light card */
-        }
-
-        .input-group {
-            max-width: 200px;
-            /* Limit the width of the input fields */
-            margin: 0 auto;
-            /* Center the input groups */
-        }
-
-        .btn-lg {
-            width: 100%;
-            /* Make the button full-width */
-        }
-
-        .card {
-            margin: 0 auto;
-            padding: 15px;
-        }
-
-        #voteForm {
-            display: flex;
-            justify-content: space-around;
-        }
-
-        .form-label {
-            font-size: 0.9rem;
-        }
-
-        .white-border {
-            border: 1px solid white;
-            /* Adjust the border width as needed */
-        }
-
-        #voteHistogram img {
-            max-width: 800px;
-            /* Set a maximum width for the chart */
-            max-height: 300px;
-            /* Set a maximum height for the chart */
-            display: block;
-            margin: 0 auto;
-        }
-    </style>
 </head>
-
-<body class="light-mode">
+<body>
     <div class="container mt-5">
-        <div class="card shadow-sm p-4 light-card" id="themeCard">
-            <div class="d-flex justify-content-center">
-                <h1 class="text-center mb-4">
-                    <i class="fas fa-vote-yea"></i> Quantum Voting System
-                </h1>
+        <div class="card shadow-sm p-4">
+            <h1 class="text-center mb-4">
+                <i class="fas fa-vote-yea"></i> Quantum Voting System
+            </h1>
 
-                <div class="position-absolute top-0 end-0 p-4">
-                    <button id="toggleButton" class="btn btn-primary">
-                        <i id="toggleIcon" class="bi bi-brightness-high"></i>
-                    </button>
-                </div>
-
-            </div>
-
-            <div class="mb-4">
-                <p class="h2 text-center p-3">Enter the Votes for each Candidate:</p>
-                <form id="voteForm">
-                    <div class="input-group">
-                        <label for="candidate1" class="form-label">Candidate 1 (Alice):</label>
-                        <input type="number" class="form-control form-control-sm" id="candidate1" value="0">
-                    </div>
-                    <div class="input-group">
-                        <label for="candidate2" class="form-label">Candidate 2 (Bob):</label>
-                        <input type="number" class="form-control form-control-sm" id="candidate2" value="0">
-                    </div>
-                    <div class="input-group">
-                        <label for="candidate3" class="form-label">Candidate 3 (Charlie):</label>
-                        <input type="number" class="form-control form-control-sm" id="candidate3" value="0">
-                    </div>
-                    <div class="input-group">
-                        <label for="candidate4" class="form-label">Candidate 4 (Diana):</label>
-                        <input type="number" class="form-control form-control-sm" id="candidate4" value="0">
-                    </div>
-                </form>
-                <div class="mt-4 text-center">
-                    <button type="button" id="voteButton" class="btn btn-primary btn-lg">
-                        <i class="fas fa-play-circle"></i> Find Winner
-                    </button>
-                </div>
+            <div class="text-center">
+                <button id="voteButton" class="btn btn-primary btn-lg">
+                    <i class="fas fa-play-circle"></i> Start Voting
+                </button>
             </div>
 
             <div id="loading" class="text-center mt-4" style="display:none;">
@@ -139,12 +33,12 @@
             </div>
 
             <div id="results" class="mt-4" style="display:none;">
-                <div class="card p-3 light-card" id="themeCard">
-                    <p class="h2 text-center">Results:</p>
-                    <p><strong>Winner(s):</strong> <span id="winner"></span></p>
+                <div class="card p-3">
+                    <h2>Results:</h2>
+                    <p><strong>Winner:</strong> <span id="winner"></span></p>
                     <p><strong>Total Votes:</strong> <span id="totalVotes"></span></p>
 
-                    <p class="h3 text-center">Vote Counts:</p>
+                    <h3>Vote Counts:</h3>
                     <div id="voteHistogram">
                         <img id="histogram" class="img-fluid" src="" alt="Vote Histogram" />
                     </div>
@@ -159,82 +53,21 @@
 
     <!-- Script to handle voting functionality -->
     <script>
-        document.getElementById("voteButton").addEventListener("click", function () {
+        document.getElementById("voteButton").addEventListener("click", function() {
             document.getElementById("loading").style.display = "block";
             document.getElementById("results").style.display = "none";
-
-            // Get votes from input fields
-            const votes = [
-                parseInt(document.getElementById("candidate1").value),
-                parseInt(document.getElementById("candidate2").value),
-                parseInt(document.getElementById("candidate3").value),
-                parseInt(document.getElementById("candidate4").value)
-            ];
-
-            // Send votes to the server
-            fetch("/vote", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ votes: votes })
-            })
+            
+            fetch("/vote")
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById("loading").style.display = "none";
                     document.getElementById("results").style.display = "block";
 
-                    // Handling joint winners in case of ties
-                    const maxVotes = Math.max(...votes);
-                    const winners = [];
-                    for (let i = 0; i < votes.length; i++) {
-                        if (votes[i] === maxVotes) {
-                            winners.push("Candidate " + (i + 1));
-                        }
-                    }
-
-                    document.getElementById("winner").innerText = winners.join(", ");
+                    document.getElementById("winner").innerText = "Candidate " + data.winner;
                     document.getElementById("totalVotes").innerText = data.votes + " votes";
                     document.getElementById("histogram").src = "data:image/png;base64," + data.image;
                 });
         });
-
-        const toggleButton = document.getElementById('toggleButton');
-        const body = document.body;
-        const toggleIcon = document.getElementById('toggleIcon');
-        const themeCard = document.getElementById('themeCard');
-        const resultsCard = document.getElementById('results').querySelector('.card'); // Select inner card
-
-        // Check for saved user preference
-        const currentTheme = localStorage.getItem('theme');
-        if (currentTheme) {
-            body.className = currentTheme;
-            themeCard.className = currentTheme === 'dark-mode' ? 'card dark-card white-border' : 'card light-card border';
-            resultsCard.className = currentTheme === 'dark-mode' ? 'card dark-card white-border' : 'card light-card border'; // Apply theme to results card
-            toggleIcon.className = currentTheme === 'dark-mode' ? 'bi bi-moon' : 'bi bi-brightness-high';
-        }
-
-        // Toggle theme on button click
-        toggleButton.addEventListener('click', () => {
-            if (body.classList.contains('light-mode')) {
-                body.classList.remove('light-mode');
-                body.classList.add('dark-mode');
-                themeCard.className = 'card dark-card white-border'; // Change theme card to dark
-                resultsCard.className = 'card dark-card white-border'; // Change results card to dark
-                toggleIcon.className = 'bi bi-moon'; // Change icon to moon
-                localStorage.setItem('theme', 'dark-mode');
-            } else {
-                body.classList.remove('dark-mode');
-                body.classList.add('light-mode');
-                themeCard.className = 'card light-card border'; // Change theme card to light
-                resultsCard.className = 'card light-card border'; // Change results card to light
-                toggleIcon.className = 'bi bi-brightness-high'; // Change icon to sun
-                localStorage.setItem('theme', 'light-mode');
-            }
-        });
-
-
     </script>
 </body>
-
 </html>

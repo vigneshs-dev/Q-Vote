@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vote</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Vote for Your Preferred Candidate</h1>
+        
+        <!-- {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                <ul class="flashes">
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %} -->
+
+        <form action="/vote" method="POST" class="form-vote">
+            <label for="candidate">Select a candidate:</label>
+            <select name="candidate" id="candidate" class="candidate-select">
+                <option value="1">Candidate 1</option>
+                <option value="2">Candidate 2</option>
+                <option value="3">Candidate 3</option>
+                <option value="4">Candidate 4</option>
+            </select>
+            <br><br>
+            <button type="submit" class="btn-submit">Submit Vote</button>
+        </form>
+
+        <h2>Current Vote Counts:</h2>
+        <ul class="vote-counts">
+            {% for candidate, count in current_vote_counts %}
+                <li>Candidate {{ candidate }}: {{ count }} votes</li>
+            {% endfor %}
+        </ul>
+
+        <a href="/logout" class="btn-logout">Logout</a>
+    </div>
+</body>
+</html>

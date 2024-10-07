@@ -162,11 +162,7 @@ def login():
         user = conn.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
         conn.close()
 
-        if user is None:
-            flash("You need to register first before logging in.", category='warning')
-            return redirect(url_for('register'))  # Redirect to the register page
-
-        if check_password_hash(user['password'], password):
+        if user and check_password_hash(user['password'], password):
             session['user_id'] = user['id']
             session['username'] = username
             flash("Login successful.")
@@ -176,7 +172,6 @@ def login():
             return redirect(url_for('login'))
 
     return render_template('login.html')
-
 
 @app.route('/vote', methods=['GET', 'POST'])
 def vote():
