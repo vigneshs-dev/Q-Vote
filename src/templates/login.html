@@ -15,7 +15,15 @@
             
             <label for="password">Password</label>
             <input type="password" name="password" class="input-field" required>
-            
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="error-container">
+                            <div class="error-message">{{ message }}</div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
             <button type="submit" class="btn-submit">Login</button>
         </form>
         <p>Don't have an account? <a href="/register">Register here</a>.</p>

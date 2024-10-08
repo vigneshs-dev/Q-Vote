@@ -179,7 +179,7 @@ def login():
 
         if user is None:
             flash("User not found. Please register first.", 'error')
-            return redirect(url_for('register'))
+            return redirect(url_for('login'))
 
         if user and check_password_hash(user['password'], password):
             session['user_id'] = user['id']
