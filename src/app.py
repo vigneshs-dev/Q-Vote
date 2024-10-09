@@ -9,10 +9,17 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from qiskit import QuantumCircuit
 from qiskit_aer import AerSimulator
 from qiskit.compiler import transpile
+from dotenv import load_dotenv
+
+# This will load the environment variables from the .env file
+load_dotenv()
 
 # Assuming the app.py is inside the 'src' directory
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Get the directory of the current file (src folder)
-DATABASE_PATH = os.path.join(BASE_DIR, 'votes.db')  # Set the database path inside the src folder
+# BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Get the directory of the current file (src folder)
+# DATABASE_PATH = os.path.join(BASE_DIR, 'votes.db')  # Set the database path inside the src folder
+
+# This line will get the variable named DATABASE_PATH from the .env file, if it can't find it, it defaults to votes.db
+DATABASE_PATH = os.getenv('DATABASE_PATH', 'votes.db')
 
 # Initialize Flask App
 app = Flask(__name__)

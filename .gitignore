@@ -64,3 +64,4 @@ Thumbs.db
 # /instance
 # votes.db  # Ignore the votes database file
 # *.db
+src/votes.db
