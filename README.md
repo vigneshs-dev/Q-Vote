@@ -117,7 +117,7 @@ source venv/bin/activate
 5. Install the required dependencies:
 
 ```bash
-pip install -r requirements.txt
+pip install -r src/requirements.txt
 ```
 6. Run the quantum voting simulation:
 
