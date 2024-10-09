@@ -1,5 +1,4 @@
 # Import necessary libraries
-import os
 import math
 import hashlib
 import random
@@ -10,17 +9,13 @@ from qiskit import QuantumCircuit
 from qiskit_aer import AerSimulator
 from qiskit.compiler import transpile
 
-# Assuming the app.py is inside the 'src' directory
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Get the directory of the current file (src folder)
-DATABASE_PATH = os.path.join(BASE_DIR, 'votes.db')  # Set the database path inside the src folder
-
 # Initialize Flask App
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
-# Update the get_db_connection function
+# Database connection function
 def get_db_connection():
-    conn = sqlite3.connect(DATABASE_PATH)  # Connect using the absolute path
+    conn = sqlite3.connect('votes.db')
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -133,16 +128,6 @@ class Scrutineer:
         """Verify if a vote exists in the database using hash ID."""
         return hash_id in voting_db
 
-@app.route('/')
-def index():
-    # If the user is logged in
-    if 'user_id' in session:
-        return redirect(url_for('results'))
-    else:
-        # If not logged in, redirect to registration
-        return redirect(url_for('register'))
-
-
 # Registration route
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -164,7 +149,7 @@ def register():
             flash("Username already taken. Please try a different one.")
             return redirect(url_for('register'))
     
-    return render_template('signup.html')
+    return render_template('register.html')
 
 # Login route
 @app.route('/login', methods=['GET', 'POST'])
@@ -177,10 +162,6 @@ def login():
         user = conn.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
         conn.close()
 
-        if user is None:
-            flash("User not found. Please register first.", 'error')
-            return redirect(url_for('register'))
-
         if user and check_password_hash(user['password'], password):
             session['user_id'] = user['id']
             session['username'] = username
@@ -192,12 +173,7 @@ def login():
 
     return render_template('login.html')
 
-
-# Voting route to trigger quantum voting simulation
-@app.route('/vote', methods=['POST'])
-
 @app.route('/vote', methods=['GET', 'POST'])
-
 def vote():
     if 'user_id' not in session:
         flash("Please log in to vote.", category='warning')

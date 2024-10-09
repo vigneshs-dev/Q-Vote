@@ -59,3 +59,8 @@ Thumbs.db
 
 # Environment variables
 .env
+
+# Database file
+# /instance
+# votes.db  # Ignore the votes database file
+# *.db

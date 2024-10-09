@@ -9,7 +9,7 @@
 </head>
 <body>
     <section>
-        <form>
+        <form action="/login" method="POST" class="form-auth">
             <h1>Login</h1>
             <div class="inputbox">
                 <ion-icon name="mail-outline"></ion-icon>
@@ -21,13 +21,9 @@
                 <input type="password" required>
                 <label for="">Password</label>
             </div>
-            <div class="forget">
-                <label for=""><input type="checkbox">Remember Me</label>
-              <a href="#">Forget Password</a>
-            </div>
             <button>Log in</button>
             <div class="register">
-                <p>Don't have a account <a href="{{ url_for('signup') }}">Register</a></p>
+                <p>Don't have a account <a href="/register">Register</a></p>
             </div>
         </form>
     </section>

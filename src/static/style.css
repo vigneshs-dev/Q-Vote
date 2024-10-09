@@ -1,37 +1,152 @@
+/* General styles */
 body {
     background-color: #f0f2f5;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.5;
     transition: background-color 0.3s, color 0.3s;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
 }
 
 h1 {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: #007bff;
-}
-
-h2, h3 {
+    text-align: center;
     color: #333;
 }
 
-button {
-    font-size: 1.2rem;
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Form styles */
+.form-vote {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.candidate-select {
+    padding: 10px;
+    width: 100%;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+}
+
+.btn-submit {
     padding: 10px 20px;
-    margin: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
 }
 
-#results {
-    margin-top: 30px;
+.btn-submit:hover {
+    background-color: #0056b3;
 }
 
-.card {
-    border-radius: 10px;
-}
-
-#histogram {
-    max-width: 100%;
+/* Table styles */
+.vote-results {
+    width: 100%;
+    border-collapse: collapse;
     margin-top: 20px;
+}
+
+.vote-results th, .vote-results td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.vote-results th {
+    background-color: #007bff;
+    color: white;
+}
+
+.vote-results tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.vote-results tr:hover {
+    background-color: #ddd;
+}
+
+/* Winner list styles */
+.winners-list {
+    list-style: none;
+    padding-left: 0;
+    text-align: center;
+}
+
+.winners-list li {
+    font-size: 18px;
+    font-weight: bold;
+    color: #28a745;
+}
+
+/* Button styles */
+.btn-logout {
+    display: block;
+    text-align: center;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #dc3545;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.btn-logout:hover {
+    background-color: #c82333;
+}
+
+/* Authentication form styles */
+.form-auth {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-field {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+}
+
+.btn-submit {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.btn-submit:hover {
+    background-color: #0056b3;
+}
+
+p {
+    text-align: center;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
 }
 
 .dark-mode {
@@ -242,3 +357,19 @@ button {
             content: "- ";
         }
     }
+a:hover {
+    text-decoration: underline;
+}
+
+/* Error message styles */
+.error-container {
+    background-color: #f8d7da;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.error-message {
+    color: #dc3545;
+    text-align: center;
+    padding: 20px;
+}
