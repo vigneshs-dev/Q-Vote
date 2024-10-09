@@ -148,3 +148,16 @@ a {
 a:hover {
     text-decoration: underline;
 }
+
+/* Error message styles */
+.error-container {
+    background-color: #f8d7da;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.error-message {
+    color: #dc3545;
+    text-align: center;
+    padding: 20px;
+}
