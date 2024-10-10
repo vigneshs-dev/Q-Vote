@@ -162,9 +162,8 @@ def register():
         except sqlite3.IntegrityError:
             conn.close()
             flash("Username already taken. Please try a different one.")
-            return redirect(url_for('register'))
-
-    return render_template('register.html')
+            return redirect(url_for('register'))    
+    return render_template('signup.html')
 
 # Login route
 @app.route('/login', methods=['GET', 'POST'])
@@ -179,7 +178,7 @@ def login():
 
         if user is None:
             flash("User not found. Please register first.", 'error')
-            return redirect(url_for('login'))
+            return redirect(url_for('register'))
 
         if user and check_password_hash(user['password'], password):
             session['user_id'] = user['id']
@@ -193,8 +192,11 @@ def login():
     return render_template('login.html')
 
 
+# Voting route to trigger quantum voting simulation
+@app.route('/vote', methods=['POST'])
 
 @app.route('/vote', methods=['GET', 'POST'])
+
 def vote():
     if 'user_id' not in session:
         flash("Please log in to vote.", category='warning')
