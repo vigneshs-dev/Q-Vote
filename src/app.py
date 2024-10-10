@@ -12,7 +12,7 @@ from qiskit.compiler import transpile
 
 # Assuming the app.py is inside the 'src' directory
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Get the directory of the current file (src folder)
-DATABASE_PATH = os.path.join(BASE_DIR, 'votes.db')  # Set the database path inside the src folder
+DATABASE_PATH = os.path.join(BASE_DIR, 'db', 'votes.db')  # Set the database path inside the src folder
 
 # Initialize Flask App
 app = Flask(__name__)
@@ -31,7 +31,7 @@ def create_tables():
                     username TEXT NOT NULL UNIQUE,
                     password TEXT NOT NULL,
                     has_voted BOOLEAN NOT NULL DEFAULT 0)''')
-    
+
     conn.execute('''CREATE TABLE IF NOT EXISTS votes (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     user_id INTEGER NOT NULL,
@@ -47,11 +47,11 @@ class Voter:
         self.secret_key_AB = secret_key_AB  # Secret key shared with Tallyman
         self.secret_key_AC = secret_key_AC  # Secret key shared with Scrutineer
         self.hash_id = self.create_hash_id()  # Hash of voter ID for anonymity
-    
+
     def create_hash_id(self):
         """Creates a hash ID for voter using their voter ID."""
         return hashlib.sha256(self.voter_id.encode()).hexdigest()
-    
+
     def encode_vote(self, vote):
         """Encode the vote using quantum mechanics, superposition, and entanglement."""
         total_approvals = sum(vote)  # Count total approvals
@@ -60,26 +60,26 @@ class Voter:
             # Assign a default vote (e.g., approve the first candidate)
             vote[0] = 1
             total_approvals = 1  # Update total approvals to prevent division by zero
-        
+
         # Normalize the vote array
         n = 1 / math.sqrt(total_approvals)  # Normalization factor
         normalized_vote = [i * n for i in vote]
-        
+
         # Initialize a 2-qubit quantum circuit (since there are 4 candidates)
         qc = QuantumCircuit(2, 2, name='Vote')  # 2 classical bits for measurement
         qc.initialize(normalized_vote, [0, 1])
-        
+
         # Measure the qubits and store the result in classical bits
         qc.measure([0, 1], [0, 1])  # Measure qubits and store in classical bits 0 and 1
-        
+
         return qc
-    
+
     def sign_vote(self, vote_circuit):
         """Signs the vote using a signature method."""
         sign_circuit = QuantumCircuit(2, name='Signature')
         sign_circuit.z(0)
         sign_circuit.x(1)
-        
+
         # Use compose method to combine circuits
         signed_vote = vote_circuit.compose(sign_circuit)
         return signed_vote
@@ -128,7 +128,7 @@ class Tallyman:
 class Scrutineer:
     def __init__(self, secret_key_AC):
         self.secret_key_AC = secret_key_AC  # Secret key shared with Voter
-    
+
     def verify_vote(self, hash_id, voting_db):
         """Verify if a vote exists in the database using hash ID."""
         return hash_id in voting_db
@@ -153,7 +153,7 @@ def register():
 
         conn = get_db_connection()
         try:
-            conn.execute('INSERT INTO users (username, password, has_voted) VALUES (?, ?, ?)', 
+            conn.execute('INSERT INTO users (username, password, has_voted) VALUES (?, ?, ?)',
                          (username, hashed_password, False))
             conn.commit()
             conn.close()
@@ -163,7 +163,7 @@ def register():
             conn.close()
             flash("Username already taken. Please try a different one.")
             return redirect(url_for('register'))
-    
+
     return render_template('register.html')
 
 # Login route
@@ -199,10 +199,10 @@ def vote():
     if 'user_id' not in session:
         flash("Please log in to vote.", category='warning')
         return redirect(url_for('login'))
-    
+
     conn = get_db_connection()
     user = conn.execute('SELECT * FROM users WHERE id = ?', (session['user_id'],)).fetchone()
-    
+
     # Check if user has already voted
     if user['has_voted']:
         conn.close()
@@ -212,7 +212,7 @@ def vote():
     if request.method == 'POST':
         candidate = int(request.form['candidate'])
         adjusted_candidate = candidate - 1
-        
+
         # Insert the vote
         conn.execute('INSERT INTO votes (user_id, candidate) VALUES (?, ?)', (session['user_id'], adjusted_candidate))
         conn.execute('UPDATE users SET has_voted = ? WHERE id = ?', (True, session['user_id']))
@@ -220,17 +220,17 @@ def vote():
         conn.close()
         flash("Your vote has been recorded successfully!", category='success')
         return redirect(url_for('results'))
-    
+
     # Fetch current vote counts for display
     current_vote_counts = conn.execute('SELECT candidate, COUNT(*) as count FROM votes GROUP BY candidate').fetchall()
     conn.close()
-    
+
     # Prepare vote counts for rendering
     adjusted_counts = [(row['candidate'] + 1, row['count']) for row in current_vote_counts]
     all_candidates = {1: 0, 2: 0, 3: 0, 4: 0}
     for candidate, count in adjusted_counts:
         all_candidates[candidate] = count
-        
+
     vote_counts = [(candidate, count) for candidate, count in all_candidates.items()]
     return render_template('vote.html', current_vote_counts=vote_counts)
 
@@ -294,42 +294,42 @@ def determine_winner(vote_counts):
 def main():
     # Initialize Tallyman and Scrutineer
     tallyman = Tallyman()
-    
+
     # Assuming Scrutineer has AC to verify
     secret_key_AC = bin(random.getrandbits(4))[2:].zfill(4)
     scrutineer = Scrutineer(secret_key_AC)
-    
+
     # Retrieve votes from the database (simulate database query)
     conn = get_db_connection()
     votes_from_db = conn.execute('SELECT candidate FROM votes').fetchall()
     conn.close()
-    
+
     # Convert database votes to list of approvals (1 for approval, 0 for disapproval)
     user_votes_db = [row['candidate'] for row in votes_from_db]
-    
+
     # List of users to simulate voting (for this example)
     users = ["user1", "user2", "user3", "user4", "user5"]
-    
+
     for user, user_vote in zip(users, user_votes_db):
         # Simulate each user as a voter
         voter_id, secret_key_AB, secret_key_AC = tallyman.issue_voter_id(user)
         voter = Voter(voter_id, secret_key_AB, secret_key_AC)
-        
+
         # Voter encodes their vote into quantum circuit
         vote_circuit = voter.encode_vote([1 if i == user_vote else 0 for i in range(4)])  # 4 candidates
-        
+
         # Voter signs their vote
         signed_vote = voter.sign_vote(vote_circuit)
-        
+
         # Store the vote in Tallyman's database before verification
         tallyman.store_vote(voter.hash_id, signed_vote)
-        
+
         # Verify if the vote exists in the database
         if scrutineer.verify_vote(voter.hash_id, tallyman.voter_database):
             print(f"Vote verified by Scrutineer for voter hash ID: {voter.hash_id}")
         else:
             print(f"Vote could not be verified by Scrutineer.")
-    
+
     # Tally the votes
     results = tallyman.tally_votes()
     print("Vote Counts:", results)
@@ -348,4 +348,4 @@ def main():
 # Run the Flask app
 if __name__ == "__main__":
     create_tables()  # Ensure tables are created before running the app
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5002)
