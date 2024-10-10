@@ -73,7 +73,7 @@ class Voter:
         qc.measure([0, 1], [0, 1])  # Measure qubits and store in classical bits 0 and 1
         
         return qc
-    
+
     def sign_vote(self, vote_circuit):
         """Signs the vote using a signature method."""
         sign_circuit = QuantumCircuit(2, name='Signature')
@@ -153,17 +153,25 @@ def register():
 
         conn = get_db_connection()
         try:
+            # Check if username already exists
+            user_count = conn.execute('SELECT COUNT(*) from users WHERE username = ?', (username,))
+            count = user_count.fetchone()[0]
+            if count > 0:
+                return render_template('register.html', username=username,
+                                       message="Username already taken, please try a different one.")
+
             conn.execute('INSERT INTO users (username, password, has_voted) VALUES (?, ?, ?)', 
                          (username, hashed_password, False))
             conn.commit()
             conn.close()
             flash("Registration successful. Please log in.")
             return redirect(url_for('login'))
-        except sqlite3.IntegrityError:
+        # Print general errors for further optimizations
+        except sqlite3.Error as err:
             conn.close()
-            flash("Username already taken. Please try a different one.")
-            return redirect(url_for('register'))
-    
+            print(err)
+            return render_template('register.html',
+                                   message="Internal server error, please try again.")
     return render_template('register.html')
 
 # Login route

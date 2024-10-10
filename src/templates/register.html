@@ -11,11 +11,17 @@
         <h2>Register</h2>
         <form action="/register" method="POST" class="form-auth">
             <label for="username">Username</label>
-            <input type="text" name="username" class="input-field" required>
+            <input type="text" name="username" class="input-field" value="{{username}}" required>
             
             <label for="password">Password</label>
             <input type="password" name="password" class="input-field" required>
-            
+
+            {% if message %}
+            <div class="error-container">
+                <div class="error-message">{{ message }}</div>
+            </div>
+            {% endif %}
+
             <button type="submit" class="btn-submit">Register</button>
         </form>
         <p>Already have an account? <a href="/login">Login here</a>.</p>
