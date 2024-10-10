@@ -11,16 +11,27 @@
         <h2>Login</h2>
         <form action="/login" method="POST" class="form-auth">
             <label for="username">Username</label>
-            <input type="text" name="username" class="input-field" required>
+            <input type="text" name="username" class="input-field" value="{{username}}" required>
             
             <label for="password">Password</label>
             <input type="password" name="password" class="input-field" required>
+            {% if message %}
+            <div class="error-container">
+                <div class="error-message">{{ message }}</div>
+            </div>
+            {% endif %}
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     {% for category, message in messages %}
-                        <div class="error-container">
-                            <div class="error-message">{{ message }}</div>
-                        </div>
+                        {% if category == 'success' %}
+                            <div class="success-container">
+                                <div class="success-message">{{ message }}</div>
+                            </div>
+                        {% else %}
+                            <div class="error-container">
+                                <div class="error-message">{{ message }}</div>
+                            </div>
+                        {% endif %}
                     {% endfor %}
                 {% endif %}
             {% endwith %}

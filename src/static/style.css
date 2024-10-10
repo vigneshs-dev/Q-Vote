@@ -161,3 +161,16 @@ a:hover {
     text-align: center;
     padding: 20px;
 }
+
+/* Success message styles */
+.success-container {
+    background-color: #95d5b2;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.success-message {
+    color: #14A44D;
+    text-align: center;
+    padding: 20px;
+}
