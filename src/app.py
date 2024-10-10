@@ -154,9 +154,8 @@ def register():
         conn = get_db_connection()
         try:
             # Check if username already exists
-            user_count = conn.execute('SELECT COUNT(*) from users WHERE username = ?', (username,))
-            count = user_count.fetchone()[0]
-            if count > 0:
+            user_count = conn.execute('SELECT COUNT(*) from users WHERE username = ?', (username,)).fetchone()[0]
+            if user_count > 0:
                 return render_template('register.html', username=username,
                                        message="Username already taken, please try a different one.")
 
