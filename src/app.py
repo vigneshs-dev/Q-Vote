@@ -347,5 +347,5 @@ def main():
 
 # Run the Flask app
 if __name__ == "__main__":
-    create_tables()  # Ensure tables are created before running the app
+    create_tables()  # Ensure tables are created before running the app.
     app.run(debug=True, host='0.0.0.0', port=5000)
