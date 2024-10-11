@@ -32,12 +32,7 @@
             <button type="submit" class="btn-submit">Submit Vote</button>
         </form>
 
-        <h2>Current Vote Counts:</h2>
-        <ul class="vote-counts">
-            {% for candidate, count in current_vote_counts %}
-                <li>Candidate {{ candidate }}: {{ count }} votes</li>
-            {% endfor %}
-        </ul>
+        <h2 class="count">Total Vote Counts: {{ total_vote_count }}</h2>
 
         <a href="/logout" class="btn-logout">Logout</a>
     </div>

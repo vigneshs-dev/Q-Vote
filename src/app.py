@@ -201,8 +201,7 @@ def login():
                                    message="Internal server error, please try again.")
     return render_template('login.html')
 
-
-
+# Voting route
 @app.route('/vote', methods=['GET', 'POST'])
 def vote():
     if 'user_id' not in session:
@@ -230,19 +229,12 @@ def vote():
         flash("Your vote has been recorded successfully!", category='success')
         return redirect(url_for('results'))
 
-    # Fetch current vote counts for display
-    current_vote_counts = conn.execute('SELECT candidate, COUNT(*) as count FROM votes GROUP BY candidate').fetchall()
+    # Fetch total number of user who have done voting
+    total_vote_count = conn.execute('SELECT COUNT(*) as count FROM users WHERE has_voted = ?', (True, )).fetchone()[0]
     conn.close()
+    return render_template('vote.html', total_vote_count=total_vote_count)
 
-    # Prepare vote counts for rendering
-    adjusted_counts = [(row['candidate'] + 1, row['count']) for row in current_vote_counts]
-    all_candidates = {1: 0, 2: 0, 3: 0, 4: 0}
-    for candidate, count in adjusted_counts:
-        all_candidates[candidate] = count
-
-    vote_counts = [(candidate, count) for candidate, count in all_candidates.items()]
-    return render_template('vote.html', current_vote_counts=vote_counts)
-
+# Result route
 @app.route('/results')
 def results():
     if 'user_id' not in session:
