@@ -153,17 +153,24 @@ def register():
 
         conn = get_db_connection()
         try:
-            conn.execute('INSERT INTO users (username, password, has_voted) VALUES (?, ?, ?)',
+            # Check if username already exists
+            user_count = conn.execute('SELECT COUNT(*) from users WHERE username = ?', (username,)).fetchone()[0]
+            if user_count > 0:
+                return render_template('register.html', username=username,
+                                       message="Username already taken, please try a different one.")
+
+            conn.execute('INSERT INTO users (username, password, has_voted) VALUES (?, ?, ?)', 
                          (username, hashed_password, False))
             conn.commit()
             conn.close()
-            flash("Registration successful. Please log in.")
+            flash("Registration successful. Please log in.", 'success')
             return redirect(url_for('login'))
-        except sqlite3.IntegrityError:
+        # Print general errors for further optimizations
+        except sqlite3.Error as err:
             conn.close()
-            flash("Username already taken. Please try a different one.")
-            return redirect(url_for('register'))
-
+            print(err)
+            return render_template('register.html', username=username,
+                                   message="Internal server error, please try again.")
     return render_template('register.html')
 
 # Login route
@@ -174,22 +181,24 @@ def login():
         password = request.form['password']
 
         conn = get_db_connection()
-        user = conn.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
-        conn.close()
+        try:
+            user = conn.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
+            conn.close()
 
-        if user is None:
-            flash("User not found. Please register first.", 'error')
-            return redirect(url_for('login'))
+            if user is None:
+                return render_template('login.html', username=username, message="User not found. Please register first.")
 
-        if user and check_password_hash(user['password'], password):
-            session['user_id'] = user['id']
-            session['username'] = username
-            flash("Login successful.")
-            return redirect(url_for('vote'))
-        else:
-            flash("Invalid credentials. Please try again.")
-            return redirect(url_for('login'))
-
+            if user and check_password_hash(user['password'], password):
+                session['user_id'] = user['id']
+                session['username'] = username
+                return redirect(url_for('vote'))
+            else:
+                return render_template('login.html', username=username, message="Invalid credentials. Please try again.")
+        except sqlite3.Error as err:
+            conn.close()
+            print(err)
+            return render_template('login.html', username=username,
+                                   message="Internal server error, please try again.")
     return render_template('login.html')
 
 
