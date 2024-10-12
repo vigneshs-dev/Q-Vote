@@ -4,30 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - Q-Vote</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/register.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script><link rel="stylesheet" href="../static/login.css">
+
 </head>
 <body>
-    <div class="container">
-        <h2>Register</h2>
-        <form action="/register" method="POST" class="form-auth">
-            <label for="username">Username</label>
-            <input type="text" name="username" class="input-field" value="{{username}}" required>
-            
-            <label for="password">Password</label>
-            <input type="password" name="password" class="input-field" required>
-
-            {% if message %}
-            <div class="error-container">
-                <div class="error-message">{{ message }}</div>
-            </div>
-            {% endif %}
-
-            <button type="submit" class="btn-submit">Register</button>
-        </form>
-        <p>Already have an account? <a href="/login">Login here</a>.</p>
+    <div>
+        <div id="header">
+            <div class="logo">
+                <a href="#">Quantum Voting System</a>
+            </div> 
+        </div>
+        <section>
+        <div class="container">
+            <h1>Register</h1>
+            <form action="/register" method="POST" class="form-auth">
+                <div class="inputbox">
+                    <ion-icon name="person-outline"></ion-icon>
+                    <input type="text" name="username" class="input-field" value="{{username}}" required>
+                    <label for="">Username</label>
+                </div>
+                <div class="inputbox">
+                    <ion-icon name="lock-closed-outline"></ion-icon>
+                    <input type="password" name="password" required>
+                    <label for="password">Password</label>
+                </div>
+                {% if message %}
+                <div class="error-container">
+                    <div class="error-message">{{ message }}</div>
+                </div>
+                {% endif %}
+                <button>Sign up</button>
+                <div class="register">
+                    <p>Have an account <a href="/login">Login</a></p>
+                </div>
+            </form>
+        </div>
+    </section>
     </div>
 </body>
-<!-- Script for Darkmode -->
-<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
-<script src="../static/darkmode.js"></script>
 </html>
