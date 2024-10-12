@@ -4,17 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Q-Vote</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script><link rel="stylesheet" href="../static/login.css">
+    
 </head>
 <body>
-    <div class="container">
-        <h2>Login</h2>
+    <div>
+    <div id="header">
+        <div class="logo">
+            <a href="#">Quantum Voting System</a>
+        </div> 
+    </div>
+    <section>
         <form action="/login" method="POST" class="form-auth">
-            <label for="username">Username</label>
-            <input type="text" name="username" class="input-field" value="{{username}}" required>
-            
-            <label for="password">Password</label>
-            <input type="password" name="password" class="input-field" required>
+            <h1>Login</h1>
+            <div class="inputbox">
+                <ion-icon name="person-outline"></ion-icon>
+                <input type="text" name="username" value="{{username}}"  required>
+                <label for="username">Username</label>
+            </div>
+
+            <div class="inputbox">
+                <ion-icon name="lock-closed-outline"></ion-icon>
+                <input type="password" name="password" required>
+                <label for="password">Password</label>
+            </div>
             {% if message %}
             <div class="error-container">
                 <div class="error-message">{{ message }}</div>
@@ -35,10 +49,14 @@
                     {% endfor %}
                 {% endif %}
             {% endwith %}
-            <button type="submit" class="btn-submit">Login</button>
+            <button>Login</button>
+            <div class="register">
+                <p>Don't have a account <a href="/register">Register</a></p>
+            </div>
         </form>
-        <p>Don't have an account? <a href="/register">Register here</a>.</p>
-    </div>
+    </section>
+    
+</div>
 </body>
 <!-- Script for Darkmode -->
 <script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
