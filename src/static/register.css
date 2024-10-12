@@ -11,7 +11,8 @@ body {
   background-image: url(https://user-images.githubusercontent.com/13468728/233847739-219cb494-c265-4554-820a-bd3424c59065.jpg);
   background-repeat: no-repeat;
   background-position: center;
-  background-size: cover;
+  background-size: cover;  
+  min-height: 100vh;
 }
 
 section { 
