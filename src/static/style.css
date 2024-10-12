@@ -35,6 +35,14 @@ h1 {
     border: 1px solid #ccc;
 }
 
+.darkmode--activated .candidate-select {
+    border: 1px solid #787878;
+}
+
+.candidate-select:hover {
+    background-color:  #E0E0E0;
+}
+
 .count {
     margin: 1.3rem 0;
 }
@@ -62,11 +70,10 @@ h1 {
 }
 
 .vote-results th, .vote-results td {
-    border: 1px solid #ddd;
+    border: 1px solid #000000;
     padding: 8px;
     text-align: center;
 }
-
 .vote-results th {
     background-color: #007bff;
     color: white;
@@ -122,6 +129,18 @@ h1 {
     border-radius: 4px;
     border: 1px solid #ccc;
     margin-bottom: 20px;
+}
+
+.darkmode--activated .input-field {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #787878;
+    margin-bottom: 20px;
+}
+
+.input-field:hover {
+    background-color: #D5D5D5;
 }
 
 .btn-submit {
