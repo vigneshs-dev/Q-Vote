@@ -68,6 +68,52 @@ a:hover {
   transition: all 0.4s ease;
   right: 0;
 }
-btn-logout:hover {
+
+button:hover {
   background-color: rgb(255, 255, 255, 0.5);
+}
+section {
+  margin: 6vw 20vw;
+  max-width: auto;
+  background-color: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 20px;
+  backdrop-filter: blur(55px);
+  max-width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2rem 3rem;
+}
+h1 {
+  font-size: 2rem;
+  color: #fff;
+  /* text-align: center; */
+  margin-bottom: 2vw;
+}
+label {
+  color: #fff;
+}
+form label {
+  margin-bottom: 2vw;
+}
+.label-head {
+}
+.btn-submit {
+  width: 100%;
+  height: 40px;
+  margin-bottom: 2vw;
+  border-radius: 40px;
+  background-color: rgb(255, 255, 255, 1);
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.4s ease;
+}
+h2 {
+  font-size: 2rem;
+  color: #fff;
+  /* text-align: center; */
+  margin-bottom: 2vw;
 }

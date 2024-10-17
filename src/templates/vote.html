@@ -18,7 +18,7 @@
           <button href="/logout" class="btn-logout">Logout</button>
         </div>
       </div>
-      <div class="container">
+      <section>
         <h1>Vote for Your Preferred Candidate</h1>
 
         <!-- {% with messages = get_flashed_messages(with_categories=True) %}
@@ -32,19 +32,20 @@
         {% endwith %} -->
 
         <form action="/vote" method="POST" class="form-vote">
-          <label for="candidate">Select a candidate:</label>
+          <label class="label-head" for="candidate">Select a candidate:</label>
           <select name="candidate" id="candidate" class="candidate-select">
-            <option value="1">Candidate 1</option>
-            <option value="2">Candidate 2</option>
-            <option value="3">Candidate 3</option>
-            <option value="4">Candidate 4</option>
+            <option value="1">TONY STARK</option>
+            <option value="2">PETER PARKER</option>
+            <option value="3">STEPHEN STRANGE</option>
+            <option value="4">BRUCE BANNER</option>
+            <option value="5">LOKI</option>
+            <option value="6">THOR</option>
           </select>
-          <br /><br />
-          <button type="submit" class="btn-submit">Submit Vote</button>
         </form>
+        <button type="submit" class="btn-submit">Submit Vote</button>
 
         <h2 class="count">Total Vote Counts: {{ total_vote_count }}</h2>
-      </div>
+      </section>
     </div>
   </body>
   <!-- Script for Darkmode -->
