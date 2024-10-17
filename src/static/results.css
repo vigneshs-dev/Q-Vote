@@ -74,13 +74,13 @@ button:hover {
   background-color: rgb(255, 255, 255, 0.5);
 }
 section {
-  margin: 6vw 20vw;
+  margin: 5vw 3vw;
   max-width: auto;
   background-color: transparent;
   border: 2px solid rgba(255, 255, 255, 0.5);
   border-radius: 20px;
   backdrop-filter: blur(55px);
-  max-width: fit-content;
+  width: 80%;
   margin-left: auto;
   margin-right: auto;
   padding: 2rem 3rem;
@@ -91,28 +91,34 @@ h1 {
   /* text-align: center; */
   margin-bottom: 2vw;
 }
-label {
-  color: #fff;
-}
-form label {
-  margin-bottom: 2vw;
-}
-.btn-submit {
+.vote-results {
+  border-collapse: collapse;
   width: 100%;
-  height: 40px;
-  margin-bottom: 2vw;
-  border-radius: 40px;
-  background-color: rgb(255, 255, 255, 1);
-  border: none;
-  outline: none;
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: 600;
-  transition: all 0.4s ease;
+  color: white;
 }
-h2 {
-  font-size: 2rem;
-  color: #fff;
-  /* text-align: center; */
-  margin-bottom: 2vw;
+
+.vote-results td,
+.vote-results th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.vote-results tr:hover {
+  background-color: #ddd;
+}
+
+.vote-results th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #0c75a3;
+  color: white;
+}
+.winners {
+  color: white;
+  margin-top: 1vw;
+}
+.winners-list {
+  margin-top: 1vw;
+  color: white;
 }
