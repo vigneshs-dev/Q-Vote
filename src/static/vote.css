@@ -1,0 +1,73 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "poppins", sans-serif;
+}
+
+body {
+  background-image: url(https://user-images.githubusercontent.com/13468728/233847739-219cb494-c265-4554-820a-bd3424c59065.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  min-height: 100vh;
+  background-size: cover;
+}
+a {
+  text-decoration: none;
+  color: #fff;
+}
+#header {
+  top: 0;
+  background: #1e262d;
+  width: 100%;
+  border-radius: 0px 0px 40px 40px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0px 20px 0 rgba(0, 0, 0, 0.19);
+  padding: 0 10px;
+}
+
+#header:after {
+  content: "";
+  clear: both;
+  display: block;
+}
+.logo {
+  padding: 26px 0 26px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo a {
+  font-size: 28px;
+  display: block;
+  padding: 0 0 0 20px;
+}
+#header nav a {
+  color: #fff;
+  padding: 8px;
+}
+#header nav a:hover {
+  background: #fff;
+  color: #333;
+  border-radius: 3px;
+}
+a:hover {
+  text-decoration: none;
+}
+.btn-logout {
+  width: 4rem;
+  height: 40px;
+  border-radius: 40px;
+  background-color: rgb(255, 255, 255, 1);
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 0.7rem;
+  font-weight: 200;
+  transition: all 0.4s ease;
+  right: 0;
+}
+btn-logout:hover {
+  background-color: rgb(255, 255, 255, 0.5);
+}
