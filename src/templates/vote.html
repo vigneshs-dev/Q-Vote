@@ -1,15 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vote</title>
-    <link rel="stylesheet" href="/static/style.css">
-</head>
-<body>
-    <div class="container">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/vote.css" />
+  </head>
+  <body>
+    <div>
+      <div id="header">
+        <div class="logo">
+          <a href="#">Quantum Voting System</a>
+          <button href="/logout" class="btn-logout">Logout</button>
+        </div>
+      </div>
+      <section>
         <h1>Vote for Your Preferred Candidate</h1>
-        
+
         <!-- {% with messages = get_flashed_messages(with_categories=True) %}
             {% if messages %}
                 <ul class="flashes">
@@ -21,23 +32,23 @@
         {% endwith %} -->
 
         <form action="/vote" method="POST" class="form-vote">
-            <label for="candidate">Select a candidate:</label>
-            <select name="candidate" id="candidate" class="candidate-select">
-                <option value="1">Candidate 1</option>
-                <option value="2">Candidate 2</option>
-                <option value="3">Candidate 3</option>
-                <option value="4">Candidate 4</option>
-            </select>
-            <br><br>
-            <button type="submit" class="btn-submit">Submit Vote</button>
+          <label class="label-head" for="candidate">Select a candidate:</label>
+          <select name="candidate" id="candidate" class="candidate-select">
+            <option value="1">TONY STARK</option>
+            <option value="2">PETER PARKER</option>
+            <option value="3">STEPHEN STRANGE</option>
+            <option value="4">BRUCE BANNER</option>
+            <option value="5">LOKI</option>
+            <option value="6">THOR</option>
+          </select>
+          <button type="submit" class="btn-submit">Submit Vote</button>
         </form>
 
         <h2 class="count">Total Vote Counts: {{ total_vote_count }}</h2>
-
-        <a href="/logout" class="btn-logout">Logout</a>
+      </section>
     </div>
-</body>
-<!-- Script for Darkmode -->
-<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
-<script src="../static/darkmode.js"></script>
+  </body>
+  <!-- Script for Darkmode -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+  <script src="../static/darkmode.js"></script> -->
 </html>

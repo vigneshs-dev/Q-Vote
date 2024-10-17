@@ -1,44 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Voting Results</title>
-    <link rel="stylesheet" href="/static/style.css">
-</head>
-<body>
-    <div class="container">
+    <link rel="stylesheet" href="../static/results.css" />
+  </head>
+  <body>
+    <div>
+      <div id="header">
+        <div class="logo">
+          <a href="#">Quantum Voting System</a>
+          <button href="/logout" class="btn-logout">Logout</button>
+        </div>
+      </div>
+      <section>
         <h1>Results</h1>
 
         <table class="vote-results">
-            <thead>
-                <tr>
-                    <th>Candidate</th>
-                    <th>Total Votes</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for candidate, count in vote_counts.items() %}
-                    <tr>
-                        <td>Candidate {{ candidate }}</td>
-                        <td>{{ count }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        <h2>Winner(s):</h2>
-        <ul class="winners-list">
-            {% for winner in winners %}
-                <li>Candidate {{ winner }} with {{ max_votes }} vote(s)</li>
+          <thead>
+            <tr>
+              <th>Candidate</th>
+              <th>Total Votes</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for candidate, count in vote_counts.items() %}
+            <tr>
+              <td>Candidate {{ candidate }}</td>
+              <td>{{ count }}</td>
+            </tr>
             {% endfor %}
-        </ul>
-
-        <a href="/logout" class="btn-logout">Logout</a>
+          </tbody>
+        </table>
+        <div class="winners">
+          <h2>Winner(s):</h2>
+          <ul class="winners-list">
+            {% for winner in winners %}
+            <li>Candidate {{ winner }} with {{ max_votes }} vote(s)</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </section>
     </div>
-</body>
-<!-- Script for Darkmode -->
-<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
-<script src="../static/darkmode.js"></script>
+  </body>
+  <!-- Script for Darkmode -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+  <script src="../static/darkmode.js"></script> -->
 </html>
